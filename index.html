@@ -1238,6 +1238,22 @@ function reviewUrlFor(sessionId, token){
   return `${base}?review=${encodeURIComponent(sessionId)}&code=${encodeURIComponent(token)}`;
 }
 
+// Shortens a link via v.gd (a free, CORS-friendly URL shortener) so the QR
+// preview a phone shows before opening doesn't reveal the hosting URL/username.
+// Falls back to the original long URL if the shortener is unreachable, so a
+// shortener outage can never actually break the QR feature.
+async function shortenUrl(longUrl){
+  try{
+    const res = await fetch(`https://v.gd/create.php?format=simple&url=${encodeURIComponent(longUrl)}`);
+    if(!res.ok) return longUrl;
+    const text = (await res.text()).trim();
+    return /^https?:\/\//i.test(text) ? text : longUrl;
+  }catch(e){
+    console.error('shortenUrl failed, using long URL', e);
+    return longUrl;
+  }
+}
+
 function configIsReady(){
   return /^https?:\/\//i.test(APP_URL) && /^https?:\/\//i.test(FIREBASE_URL);
 }
@@ -1258,21 +1274,23 @@ async function renderPeerReviewTab(){
 
   const existingToken = await getReviewToken(l.id);
 
-  function drawQrBlock(token){
-    const url = reviewUrlFor(l.id, token);
+  async function drawQrBlock(token){
+    const longUrl = reviewUrlFor(l.id, token);
     qrArea.innerHTML = `
       <div class="qr-block">
         <div class="qr-canvas" id="qrCanvas"></div>
         <div class="qr-meta">
           <div style="font-weight:600;">Scan to leave feedback on ${fmtDate(l.date)}</div>
-          <div class="link-text">${url}</div>
+          <div class="link-text" id="qrLinkText">Preparing link…</div>
           <div class="warn">Session-specific · regenerating invalidates the current code.</div>
           <button class="qr-btn secondary" id="regenBtn" style="margin-top:10px;">Regenerate code</button>
         </div>
       </div>
     `;
+    const displayUrl = await shortenUrl(longUrl);
+    document.getElementById('qrLinkText').textContent = displayUrl;
     try{
-      new QRCode(document.getElementById('qrCanvas'), {text:url, width:170, height:170});
+      new QRCode(document.getElementById('qrCanvas'), {text:displayUrl, width:170, height:170});
     }catch(e){
       document.getElementById('qrCanvas').textContent = 'QR image unavailable — share the link above directly.';
     }
