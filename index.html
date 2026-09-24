@@ -433,7 +433,7 @@
       <div class="grade-table-wrap">
         <table class="grade-table" id="gradeTable">
           <thead><tr>
-            <th>Grp</th><th>Date</th><th>Topic</th><th>Presenters</th>
+            <th>Grp</th><th>Date</th><th>Topic</th><th>Student</th>
             <th>Knowledge /25</th><th>Clarity /20</th><th>PPT /10</th><th>Examples /15</th>
             <th>Delivery /10</th><th>Questions /10</th><th>Teamwork /10</th>
             <th>Total /100</th><th>Peer avg /20 (ref.)</th><th>Notes</th>
@@ -726,6 +726,10 @@ async function fbPush(key, value){
   }catch(e){ console.error('fbPush failed', e); return false; }
 }
 
+function blankGradeFields(){
+  return {knowledge:null,clarity:null,pptUse:null,examples:null,delivery:null,questions:null,teamwork:null,notes:''};
+}
+
 async function loadState(){
   try{
     const val = await fbGet(STORAGE_KEY);
@@ -740,12 +744,24 @@ async function loadState(){
     if(!(n in STATE.counts)) STATE.counts[n]=0;
     if(!(n in STATE.scores)) STATE.scores[n]={correct:0,total:0};
   });
+  // grades[id] = { [studentName]: {knowledge,...} } -- one score set per presenter.
+  // Older saves had one flat score object per group instead of per student;
+  // migrate those into both presenters getting that same starting value.
   SCHEDULE.forEach(l=>{
-    if(!STATE.grades[l.id]){
-      STATE.grades[l.id] = SEED_GRADES[l.id]
-        ? Object.assign({}, SEED_GRADES[l.id])
-        : {knowledge:null,clarity:null,pptUse:null,examples:null,delivery:null,questions:null,teamwork:null,notes:''};
+    let g = STATE.grades[l.id];
+    if(!g) g = {};
+    if('knowledge' in g || 'clarity' in g){
+      const legacy = Object.assign({}, g);
+      g = {};
+      l.presenters.forEach(name=>{ if(name) g[name] = Object.assign({}, legacy); });
     }
+    l.presenters.forEach(name=>{
+      if(!name) return;
+      if(!g[name]){
+        g[name] = SEED_GRADES[l.id] ? Object.assign({}, SEED_GRADES[l.id]) : blankGradeFields();
+      }
+    });
+    STATE.grades[l.id] = g;
   });
 }
 
@@ -1046,13 +1062,28 @@ async function runDraw(){
 
 /* ---------------- QUIZ / GRADING ---------------- */
 
+function shuffleQuestionOptions(qObj){
+  const idxArr = qObj.opts.map((_,i)=>i);
+  for(let i=idxArr.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [idxArr[i],idxArr[j]] = [idxArr[j],idxArr[i]];
+  }
+  return {
+    text: qObj.text,
+    opts: idxArr.map(i=>qObj.opts[i]),
+    correctIdx: idxArr.indexOf(qObj.correctIdx),
+    explain: qObj.explain
+  };
+}
+
 function pickTwoQuestions(lecture){
   const arr = lecture.questions.slice();
   for(let i=arr.length-1;i>0;i--){
     const j = Math.floor(Math.random()*(i+1));
     [arr[i],arr[j]] = [arr[j],arr[i]];
   }
-  return [arr.slice(0,2), arr.slice(2,4)];
+  const shuffled = arr.map(shuffleQuestionOptions);
+  return [shuffled.slice(0,2), shuffled.slice(2,4)];
 }
 
 function showResult(picks, animated){
@@ -1352,39 +1383,45 @@ async function renderGradingTab(){
   body.innerHTML = '';
   for(let i=0;i<SCHEDULE.length;i++){
     const l = SCHEDULE[i];
-    const g = STATE.grades[l.id];
-    const presenters = l.presenters.join(' & ');
+    const students = l.presenters.filter(Boolean);
     const reviews = await getReviews(l.id);
     const peerAvg = reviews.length>0 ? (reviews.reduce((s,r)=>s+r.total20,0)/reviews.length).toFixed(1) : '—';
 
-    const tr = document.createElement('tr');
-    tr.innerHTML = `
-      <td>${i+1}</td>
-      <td style="white-space:nowrap;">${fmtDate(l.date)}</td>
-      <td class="topic-cell">${l.topic}</td>
-      <td style="font-size:12.5px;">${presenters}</td>
-      ${GRADE_FIELDS.map(f=>`<td><input type="number" min="0" max="${f.max}" step="1" data-id="${l.id}" data-field="${f.key}" value="${g[f.key]===null||g[f.key]===undefined?'':g[f.key]}"></td>`).join('')}
-      <td class="total-cell" id="total-${l.id}">${computeTotal100(g)}</td>
-      <td class="peer-cell">${peerAvg}</td>
-      <td><input type="text" data-id="${l.id}" data-field="notes" value="${(g.notes||'').replace(/"/g,'&quot;')}"></td>
-    `;
-    body.appendChild(tr);
+    students.forEach((name, si)=>{
+      const g = STATE.grades[l.id][name];
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        ${si===0 ? `
+          <td rowspan="${students.length}">${i+1}</td>
+          <td rowspan="${students.length}" style="white-space:nowrap;">${fmtDate(l.date)}</td>
+          <td rowspan="${students.length}" class="topic-cell">${l.topic}</td>
+        ` : ''}
+        <td style="font-size:12.5px;">${name}</td>
+        ${GRADE_FIELDS.map(f=>`<td><input type="number" min="0" max="${f.max}" step="1" data-id="${l.id}" data-student="${name}" data-field="${f.key}" value="${g[f.key]===null||g[f.key]===undefined?'':g[f.key]}"></td>`).join('')}
+        <td class="total-cell" id="total-${l.id}-${si}">${computeTotal100(g)}</td>
+        ${si===0 ? `<td class="peer-cell" rowspan="${students.length}">${peerAvg}</td>` : ''}
+        <td><input type="text" data-id="${l.id}" data-student="${name}" data-field="notes" value="${(g.notes||'').replace(/"/g,'&quot;')}"></td>
+      `;
+      body.appendChild(tr);
+    });
   }
 
   body.querySelectorAll('input[type=number]').forEach(inp=>{
     inp.addEventListener('change', async ()=>{
-      const id = inp.dataset.id, field = inp.dataset.field;
+      const id = inp.dataset.id, student = inp.dataset.student, field = inp.dataset.field;
       const max = parseInt(inp.max,10);
       let val = inp.value === '' ? null : Math.max(0, Math.min(max, Number(inp.value)));
       inp.value = val===null ? '' : val;
-      STATE.grades[id][field] = val;
-      document.getElementById(`total-${id}`).textContent = computeTotal100(STATE.grades[id]);
+      STATE.grades[id][student][field] = val;
+      const l = SCHEDULE[Number(id)];
+      const si = l.presenters.filter(Boolean).indexOf(student);
+      document.getElementById(`total-${id}-${si}`).textContent = computeTotal100(STATE.grades[id][student]);
       await saveState();
     });
   });
   body.querySelectorAll('input[type=text]').forEach(inp=>{
     inp.addEventListener('change', async ()=>{
-      STATE.grades[inp.dataset.id][inp.dataset.field] = inp.value;
+      STATE.grades[inp.dataset.id][inp.dataset.student][inp.dataset.field] = inp.value;
       await saveState();
     });
   });
@@ -1398,18 +1435,20 @@ function csvEscape(v){
 }
 
 function exportGradesCsv(){
-  const header = ['Group','Date','Topic','Exact PPT Filename','Slides','Student 1','Student 2','Student 3',
+  const header = ['Group','Date','Topic','Exact PPT Filename','Slides','Student',
     'Knowledge /25','Clarity /20','PPT Use /10','Examples /15','Delivery /10','Questions /10','Teamwork /10',
     'Total /100','Peer Review Avg /20 (reference)','Course Weight','Notes'];
   const rows = [header];
   SCHEDULE.forEach((l,i)=>{
-    const g = STATE.grades[l.id];
-    rows.push([
-      i+1, l.date, l.topic, l.file, l.slides,
-      l.presenters[0]||'', l.presenters[1]||'', 'Not applicable',
-      g.knowledge??'', g.clarity??'', g.pptUse??'', g.examples??'', g.delivery??'', g.questions??'', g.teamwork??'',
-      computeTotal100(g), '', '8%', g.notes||''
-    ]);
+    const students = l.presenters.filter(Boolean);
+    students.forEach(name=>{
+      const g = STATE.grades[l.id][name];
+      rows.push([
+        i+1, l.date, l.topic, l.file, l.slides, name,
+        g.knowledge??'', g.clarity??'', g.pptUse??'', g.examples??'', g.delivery??'', g.questions??'', g.teamwork??'',
+        computeTotal100(g), '', '8%', g.notes||''
+      ]);
+    });
   });
   const csv = rows.map(r=>r.map(csvEscape).join(',')).join('\n');
   const blob = new Blob([csv], {type:'text/csv'});
@@ -1573,9 +1612,12 @@ async function initDashboard(){
     STATE = { counts:{}, history:{}, scores:{}, grades:{} };
     ROSTER.forEach(n=>{ STATE.counts[n]=0; STATE.scores[n]={correct:0,total:0}; });
     SCHEDULE.forEach(l=>{
-      STATE.grades[l.id] = SEED_GRADES[l.id]
-        ? Object.assign({}, SEED_GRADES[l.id])
-        : {knowledge:null,clarity:null,pptUse:null,examples:null,delivery:null,questions:null,teamwork:null,notes:''};
+      const g = {};
+      l.presenters.forEach(name=>{
+        if(!name) return;
+        g[name] = SEED_GRADES[l.id] ? Object.assign({}, SEED_GRADES[l.id]) : blankGradeFields();
+      });
+      STATE.grades[l.id] = g;
     });
     await saveState();
     renderLecture();
