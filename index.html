@@ -151,7 +151,10 @@
   .draw-btn:disabled{opacity:0.5; cursor:not-allowed; transform:none;}
   .draw-hint{font-size:13px; color:var(--text-dim); text-align:center;}
 
-  .reels{display:grid; grid-template-columns:1fr 1fr; gap:14px; width:100%; max-width:520px;}
+  .reels{display:grid; grid-template-columns:repeat(3,1fr); gap:14px; width:100%; max-width:720px;}
+  @media (max-width:640px){ .reels{grid-template-columns:1fr;} }
+  .remain-stats{display:flex; gap:22px; justify-content:center; font-size:13px; color:var(--text-dim);}
+  .remain-stats b{color:var(--text); font-weight:600;}
   .reel{
     background:var(--paper); color:var(--ink-0); border-radius:14px; padding:16px 14px; text-align:center;
     min-height:78px; display:flex; align-items:center; justify-content:center;
@@ -365,11 +368,13 @@
         </svg>
 
         <button class="draw-btn" id="drawBtn">Open the box</button>
-        <div class="draw-hint" id="drawHint">Weighted toward students who haven't presented yet.</div>
+        <div class="draw-hint" id="drawHint">Only students not yet called are eligible.</div>
+        <div class="remain-stats" id="remainStats"></div>
 
         <div class="reels" id="reels" style="visibility:hidden;">
           <div class="reel" id="reel0"><span class="num">1</span><span class="name">—</span></div>
           <div class="reel" id="reel1"><span class="num">2</span><span class="name">—</span></div>
+          <div class="reel" id="reel2"><span class="num">3</span><span class="name">—</span></div>
         </div>
 
         <div class="already-note" id="alreadyNote" style="display:none;">
@@ -563,7 +568,9 @@ const SCHEDULE = [
   q("A Stack works like:", ["A stack of plates — the last one added is the first one removed","A line at a store","A random pile","A sorted list"],0,"That's Last In, First Out — the most recent item added comes off first."),
   q("A Queue works like:", ["A line at a store — the first one in is the first one out","A stack of plates","A random pile","A sorted list"],0,"That's First In, First Out — just like waiting your turn in line."),
   q("What can you do with a Deque that you can't do with a normal Queue?", ["Add or remove items from both ends","Only add to the front","Only remove from the back","Nothing different"],0,"Deque means 'double-ended queue' — both ends are open for adding and removing."),
-  q("What's special about a Bag?", ["It can hold duplicate items in no particular order","It never allows duplicates","It's always sorted","It only holds one item"],0,"A Bag is just an unordered collection where repeats are perfectly fine.")
+  q("What's special about a Bag?", ["It can hold duplicate items in no particular order","It never allows duplicates","It's always sorted","It only holds one item"],0,"A Bag is just an unordered collection where repeats are perfectly fine."),
+  q("What does 'push' do on a Stack?", ["Adds an item to the top","Removes the top item","Sorts the stack","Empties the stack"],0,"Push puts a new item on top, like placing a plate on the pile."),
+  q("In a linked list, each node stores:", ["A value and a link to the next node","Only a number","Only a name","A sorted copy of the list"],0,"Nodes are chained together by links, so each one points to the next.")
  ]},
 {date:"2026-10-15", topic:"Recursion", file:"Class17-Chapter14-1.pptx", slides:27,
  presenters:["Conor Mullins","Matthew Hernandez"],
@@ -571,7 +578,9 @@ const SCHEDULE = [
   q("What is recursion?", ["A method that calls itself","A method that never ends","A type of loop only","A way to delete code"],0,"A recursive method solves a problem by calling a smaller version of itself."),
   q("What is a 'base case' for?", ["To stop the recursion from continuing forever","To start the recursion","To slow the program down","To cause an error"],0,"The base case is the simple situation that doesn't need another recursive call."),
   q("What happens if a recursive method has no base case?", ["It keeps calling itself forever and crashes","It runs once and stops","It skips itself entirely","Nothing happens"],0,"Without a stopping point, the calls pile up until the program runs out of memory."),
-  q("Why is binary search a good example of recursion?", ["It keeps splitting the problem in half","It checks every item one by one","It never repeats itself","It sorts the list first"],0,"Each recursive call works on a smaller half of the remaining list.")
+  q("Why is binary search a good example of recursion?", ["It keeps splitting the problem in half","It checks every item one by one","It never repeats itself","It sorts the list first"],0,"Each recursive call works on a smaller half of the remaining list."),
+  q("Which of these is a typical example of recursion?", ["Factorial","Printing one line","Declaring a variable","Importing a package"],0,"Factorial of n is n times the factorial of n-1, so it calls itself with a smaller number."),
+  q("Each recursive call should work on:", ["A smaller version of the problem","A bigger version of the problem","The exact same problem","A random problem"],0,"Getting smaller each time is what lets the calls eventually reach the base case.")
  ]},
 {date:"2026-10-20", topic:"Algorithms and Complexity", file:"Class18-Chapter16-1-1.pptx", slides:18,
  presenters:["Samuel Goldman","Zachary Desantis"],
@@ -579,7 +588,9 @@ const SCHEDULE = [
   q("What does 'complexity' describe about an algorithm?", ["How its runtime grows as the input gets bigger","How neatly the code is written","The programming language used","How many comments it has"],0,"Complexity is about scaling — how much slower things get as the input grows."),
   q("For a large sorted list, which search is generally faster?", ["Binary search","Linear search","They're the same speed","Neither can search a list"],0,"Binary search skips over big chunks of the list instead of checking every item."),
   q("What is Big O notation used for?", ["Roughly describing how fast or slow an algorithm is","Naming variables","Formatting output text","Writing loops"],0,"It's a simple way to compare how algorithms scale, without measuring exact seconds."),
-  q("If a loop runs many more times, what generally happens to the runtime?", ["It takes longer overall","It runs faster","It stays exactly the same","It stops early"],0,"More repetitions of the same work usually means more total time.")
+  q("If a loop runs many more times, what generally happens to the runtime?", ["It takes longer overall","It runs faster","It stays exactly the same","It stops early"],0,"More repetitions of the same work usually means more total time."),
+  q("Linear search checks the items:", ["One by one from the start","By jumping to the middle first","Only the last item","In random order"],0,"Linear search just walks through the list until it finds the target."),
+  q("Binary search only works if the list is:", ["Sorted","Empty","Full of duplicates","Very short"],0,"It relies on the order to know which half to throw away.")
  ]},
 {date:"2026-10-22", topic:"Sorting Algorithms — Part 1", file:"Class19-Chapter16-2-1.pptx", slides:20,
  presenters:["Jack Harvey","Yifan Ou"],
@@ -587,7 +598,9 @@ const SCHEDULE = [
   q("What does Selection Sort do?", ["Repeatedly picks the smallest remaining item and moves it to the front","Randomly shuffles the items","Splits the list into two halves","Uses a hash table"],0,"Each pass finds the smallest leftover value and puts it in its correct spot."),
   q("What does Bubble Sort do?", ["Repeatedly swaps neighboring items that are out of order","Picks the smallest item each time","Only uses recursion","Sorts by hashing values"],0,"Out-of-order neighbors get swapped again and again until the list settles."),
   q("A 'stable' sort means:", ["Equal items keep their original order","The sort never fails","It uses no memory at all","It's always the fastest option"],0,"If two items are equal, a stable sort won't swap their relative positions."),
-  q("Insertion Sort is a lot like:", ["Sorting playing cards in your hand as you pick them up","Searching a phone book","Hashing values into buckets","Building a tree"],0,"You take each new item and slide it into the right spot among the ones you've already sorted.")
+  q("Insertion Sort is a lot like:", ["Sorting playing cards in your hand as you pick them up","Searching a phone book","Hashing values into buckets","Building a tree"],0,"You take each new item and slide it into the right spot among the ones you've already sorted."),
+  q("What is the goal of any sorting algorithm?", ["Put items in order","Delete items","Find the largest item only","Copy a list"],0,"Sorting arranges items from smallest to largest, or the other way around."),
+  q("Which sort is the simplest to understand but slow on big lists?", ["Bubble sort","Merge sort","Heap sort","Quick sort"],0,"Bubble sort just swaps neighbors again and again, which takes many passes.")
  ]},
 {date:"2026-10-27", topic:"Sorting Algorithms — Part 2", file:"Class20-Chapter16-3-1.pptx", slides:19,
  presenters:["Brendon Le","Julian Ngai"],
@@ -595,7 +608,9 @@ const SCHEDULE = [
   q("Quick Sort works by:", ["Picking a pivot and splitting the list around it","Merging two sorted halves together","Checking every neighboring pair","Using a hash table"],0,"Everything smaller than the pivot goes one side, everything bigger goes the other."),
   q("Merge Sort works by:", ["Splitting the list in half, sorting each half, then combining them","Picking a pivot value","Comparing only neighboring items","Never using recursion"],0,"It keeps dividing the list until pieces are tiny, then merges the sorted pieces back together."),
   q("Compared to Bubble, Selection, and Insertion sort, Merge and Heap sort are generally:", ["Much faster on large lists","Much slower on large lists","Exactly the same speed","Not real sorting algorithms"],0,"Merge and Heap sort scale much better as the list gets bigger."),
-  q("An 'in-place' sort means:", ["It doesn't need much extra memory to work","It needs a lot of extra memory","It can't sort numbers","It only works on already-sorted lists"],0,"An in-place sort rearranges items within the original list instead of copying to new storage.")
+  q("An 'in-place' sort means:", ["It doesn't need much extra memory to work","It needs a lot of extra memory","It can't sort numbers","It only works on already-sorted lists"],0,"An in-place sort rearranges items within the original list instead of copying to new storage."),
+  q("Merge sort combines two halves that are already:", ["Sorted","Empty","Random","Duplicated"],0,"Merging two sorted halves is easy because you only compare the front items."),
+  q("In Quick Sort, what is a pivot?", ["The value the list is split around","The last item always","The smallest item only","A new list"],0,"Smaller values go on one side of the pivot and larger values on the other.")
  ]},
 {date:"2026-10-29", topic:"Introduction to Trees", file:"Class22-Chapter18-1-1.pptx", slides:19,
  presenters:["Eesha Devulkar","Amrutha Siri Kommidi"],
@@ -603,7 +618,9 @@ const SCHEDULE = [
   q("What is the 'root' of a tree?", ["The very top node, with no parent","The bottom node","Any node in the tree","A node with two children"],0,"Every tree has one root at the very top that everything branches down from."),
   q("What is a 'leaf' node?", ["A node with no children","The root node","Any node with children","A node in the middle"],0,"Leaves are the end points at the bottom of the tree."),
   q("In-order traversal visits nodes in what order?", ["Left side, then the node, then right side","Node, then left, then right","Right, then left, then node","Randomly"],0,"That left-node-right pattern is what 'in-order' means."),
-  q("What does the 'height' of a tree tell you?", ["How many levels deep the tree goes","How many leaves it has","How wide the tree is","The total number of nodes"],0,"A taller tree has more levels between the root and its deepest leaf.")
+  q("What does the 'height' of a tree tell you?", ["How many levels deep the tree goes","How many leaves it has","How wide the tree is","The total number of nodes"],0,"A taller tree has more levels between the root and its deepest leaf."),
+  q("What is a 'child' node?", ["A node directly below another node","The top node","A node with no parent at all","A deleted node"],0,"Each node can have children that hang beneath it."),
+  q("In a binary tree, each node has at most how many children?", ["Two","One","Three","Ten"],0,"That is what 'binary' means: a left child and a right child.")
  ]},
 {date:"2026-11-03", topic:"Binary Search Trees", file:"Class22-Chapter18-2-1.pptx", slides:12,
  presenters:["Eugene Cho","Everett Fox"],
@@ -611,7 +628,9 @@ const SCHEDULE = [
   q("In a Binary Search Tree, where do smaller values go?", ["To the left of a node","To the right of a node","At the root always","Anywhere at all"],0,"Smaller values always sit to the left in a BST."),
   q("In a Binary Search Tree, where do larger values go?", ["To the right of a node","To the left of a node","At the leaves only","Nowhere — it's not allowed"],0,"Larger (or equal) values always sit to the right in a BST."),
   q("Which traversal gives you the values in sorted order?", ["In-order traversal","Pre-order traversal","Post-order traversal","Level-order traversal"],0,"Because of the left-node-right pattern, in-order traversal naturally comes out sorted."),
-  q("What are the three main things you do with a BST?", ["Search, insert, and remove items","Push, pop, and peek","Read, write, and delete files","Enqueue and dequeue only"],0,"Those three operations cover almost everything you do with a BST.")
+  q("What are the three main things you do with a BST?", ["Search, insert, and remove items","Push, pop, and peek","Read, write, and delete files","Enqueue and dequeue only"],0,"Those three operations cover almost everything you do with a BST."),
+  q("Where is the smallest value in a Binary Search Tree?", ["Far down the left side","At the root always","Far down the right side","In the middle"],0,"Keep going left until there is nothing more on the left."),
+  q("Why is a BST good for searching?", ["Each step lets you ignore about half of the remaining nodes","It checks every node","It stores items in a line","It never changes"],0,"Comparing with a node tells you whether to go left or right.")
  ]},
 {date:"2026-11-12", topic:"Heaps and Priority Queues", file:"Class23-Chapter18-3-1.pptx", slides:20,
  presenters:["Louis Romero Caballero","Kai Mckinney"],
@@ -619,7 +638,9 @@ const SCHEDULE = [
   q("What's special about a Priority Queue?", ["It gives fast access to the smallest (or largest) item","It's always sorted alphabetically","It can only store one item","It's the same thing as a stack"],0,"Items come out based on priority, not just the order they were added."),
   q("A heap is usually built using what shape?", ["A complete binary tree","A straight line","A hash table","A stack"],0,"That tree shape is what makes heaps efficient to store and update."),
   q("When you add a new item to a heap, what has to happen?", ["The heap may need to reorganize itself to stay valid","Nothing happens","The whole heap gets deleted","It turns into a queue"],0,"The new item may need to move up until the heap's ordering rule is satisfied again."),
-  q("Heaps are commonly used to build which sorting algorithm?", ["Heap sort","Bubble sort","Insertion sort","Counting sort"],0,"Heap sort repeatedly removes the top item from a heap to build a sorted list.")
+  q("Heaps are commonly used to build which sorting algorithm?", ["Heap sort","Bubble sort","Insertion sort","Counting sort"],0,"Heap sort repeatedly removes the top item from a heap to build a sorted list."),
+  q("In a min-heap, the item at the top is:", ["The smallest item","The largest item","Always zero","A random item"],0,"A min-heap keeps its smallest value at the root."),
+  q("A heap is usually stored in:", ["An array","A text file","A hash table","A stack of plates"],0,"A complete tree fits neatly into an array, so no links are needed.")
  ]},
 {date:"2026-11-17", topic:"Hashing and HashMap", file:"Class24-Chapter17-1-1.pptx", slides:26,
  presenters:["Hunter Miller","Younis Bashir"],
@@ -627,7 +648,9 @@ const SCHEDULE = [
   q("What does a hash function do?", ["Turns a key into a spot (index) to store or find data","Sorts a list","Deletes data","Compares two files"],0,"It's like a quick formula that tells you exactly where to look."),
   q("What is a 'collision' in hashing?", ["When two different keys land in the same spot","When the program crashes","When a key goes missing","When data gets sorted"],0,"Two different keys can sometimes hash to the same location — that's a collision."),
   q("What's one common way to handle a collision?", ["Store multiple items together at that spot (chaining)","Ignore it and hope for the best","Delete both items","Stop the program"],0,"Chaining keeps a small list at each spot so more than one item can live there."),
-  q("How fast is looking something up in a good hash map, on average?", ["Very fast — close to instant","Very slow","The same as checking a list one item at a time","It depends on sorting first"],0,"A well-built hash map gives roughly constant-time lookups.")
+  q("How fast is looking something up in a good hash map, on average?", ["Very fast — close to instant","Very slow","The same as checking a list one item at a time","It depends on sorting first"],0,"A well-built hash map gives roughly constant-time lookups."),
+  q("In a HashMap, items are stored as:", ["Key and value pairs","Single numbers only","Sorted words only","Images"],0,"You look up a value by giving its key."),
+  q("What is a 'bucket' in hashing?", ["A spot in the table where items are stored","A kind of loop","An error message","A sorting method"],0,"The hash function sends each key to one bucket.")
  ]}
 ];
 
@@ -921,8 +944,9 @@ function renderLecture(){
   document.getElementById('reels').style.visibility = 'hidden';
   document.getElementById('reel0').classList.remove('landed','spinning');
   document.getElementById('reel1').classList.remove('landed','spinning');
-  document.getElementById('reel0').querySelector('.name').textContent='—';
-  document.getElementById('reel1').querySelector('.name').textContent='—';
+  document.getElementById('reel2').classList.remove('landed','spinning');
+  ['reel0','reel1','reel2'].forEach(id=>{ document.getElementById(id).querySelector('.name').textContent='—'; });
+  renderRemaining();
   document.getElementById('quizWrap').classList.remove('visible');
   document.getElementById('quizWrap').innerHTML='';
   setLid(false);
@@ -941,7 +965,7 @@ function renderLecture(){
     currentPicks = null;
     alreadyNote.style.display='none';
     drawBtn.disabled = false;
-    drawHint.textContent = "Weighted toward students who haven't presented yet.";
+    drawHint.textContent = "Only students not yet called are eligible.";
   }
 }
 
@@ -949,30 +973,86 @@ function renderLecture(){
 
 function computeCandidates(lecture){
   const excluded = new Set(lecture.presenters);
-  return ROSTER.filter(n=>!excluded.has(n));
+  return ROSTER.filter(n=>!excluded.has(n) && (STATE.counts[n]||0) === 0);
 }
 
-function weightFor(name){
-  const c = STATE.counts[name] || 0;
-  return 1 / Math.pow(c+1, 1.6);
+const PICKS_PER_SESSION = 3;
+
+function uncalledStudents(){
+  return ROSTER.filter(n=>(STATE.counts[n]||0) === 0);
 }
 
-function drawTwoNames(lecture){
-  let pool = computeCandidates(lecture).map(name=>({name, w:weightFor(name)}));
-  const picked = [];
-  for(let k=0;k<2 && pool.length>0;k++){
-    const total = pool.reduce((s,c)=>s+c.w,0);
-    let r = Math.random()*total;
-    let idx = 0;
-    for(let i=0;i<pool.length;i++){
-      r -= pool[i].w;
-      if(r<=0){ idx=i; break; }
-      idx=i;
+// Sessions after the given one that have not been drawn yet.
+function futureSessions(lecture){
+  const idx = SCHEDULE.indexOf(lecture);
+  return SCHEDULE.filter((x,i)=> i > idx && !STATE.history[x.id]);
+}
+
+// True if every student in `students` can still be placed into a later session
+// (PICKS_PER_SESSION seats each, never on a day they present) or into the
+// `extraSeats` still open in the current session.
+function canCover(students, lecture, extraSeats){
+  const future = futureSessions(lecture);
+  const seats = [];
+  future.forEach(f=>{ for(let k=0;k<PICKS_PER_SESSION;k++) seats.push(new Set(f.presenters)); });
+  const curBlocked = new Set(lecture.presenters);
+  for(let k=0;k<extraSeats;k++) seats.push(curBlocked);
+  if(students.length > seats.length) return false;
+  const seatOwner = new Array(seats.length).fill(-1);
+  function tryAssign(si, seen){
+    for(let k=0;k<seats.length;k++){
+      if(seen[k] || seats[k].has(students[si])) continue;
+      seen[k] = true;
+      if(seatOwner[k] === -1 || tryAssign(seatOwner[k], seen)){ seatOwner[k] = si; return true; }
     }
-    picked.push(pool[idx].name);
-    pool.splice(idx,1);
+    return false;
+  }
+  for(let si=0; si<students.length; si++){
+    if(!tryAssign(si, new Array(seats.length).fill(false))) return false;
+  }
+  return true;
+}
+
+function shuffled(arr){
+  const a = arr.slice();
+  for(let i=a.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i],a[j]] = [a[j],a[i]];
+  }
+  return a;
+}
+
+function drawNames(lecture){
+  const uncalled = uncalledStudents();
+  const eligible = shuffled(computeCandidates(lecture));
+  const picked = [];
+  for(const cand of eligible){
+    if(picked.length >= PICKS_PER_SESSION) break;
+    const rest = uncalled.filter(n=>n!==cand && !picked.includes(n));
+    if(canCover(rest, lecture, PICKS_PER_SESSION - picked.length - 1)) picked.push(cand);
+  }
+  // Fallback if full coverage is no longer possible: keep choosing uncalled students first.
+  if(picked.length < PICKS_PER_SESSION){
+    for(const cand of eligible){
+      if(picked.length >= PICKS_PER_SESSION) break;
+      if(!picked.includes(cand)) picked.push(cand);
+    }
+  }
+  if(picked.length < PICKS_PER_SESSION){
+    const excluded = new Set(lecture.presenters);
+    const others = shuffled(ROSTER.filter(n=>!excluded.has(n) && !picked.includes(n)))
+      .sort((x,y)=>(STATE.counts[x]||0)-(STATE.counts[y]||0));
+    for(const n of others){ if(picked.length >= PICKS_PER_SESSION) break; picked.push(n); }
   }
   return picked;
+}
+
+function renderRemaining(){
+  const el = document.getElementById('remainStats');
+  if(!el) return;
+  const today = new Date(); today.setHours(0,0,0,0);
+  const sessionsLeft = SCHEDULE.filter(x=>!STATE.history[x.id] && new Date(x.date+'T23:59:59') >= today).length;
+  el.innerHTML = `<span><b>${sessionsLeft}</b> sessions left</span><span><b>${uncalledStudents().length}</b> students not yet called</span>`;
 }
 
 /* ---------------- ANIMATION ---------------- */
@@ -1032,21 +1112,22 @@ async function runDraw(){
   const l = SCHEDULE[currentIdx];
   const drawBtn = document.getElementById('drawBtn');
   drawBtn.disabled = true;
-  const picks = drawTwoNames(l);
+  const picks = drawNames(l);
   currentPicks = picks;
 
   const pool = computeCandidates(l);
   document.getElementById('reels').style.visibility = 'visible';
   const reel0 = document.getElementById('reel0');
   const reel1 = document.getElementById('reel1');
-  reel0.querySelector('.name').textContent='?';
-  reel1.querySelector('.name').textContent='?';
+  const reel2 = document.getElementById('reel2');
+  [reel0,reel1,reel2].forEach(r=>{ r.classList.remove('landed'); r.querySelector('.name').textContent='?'; });
 
   setLid(true);
   await new Promise(r=>setTimeout(r,350));
 
   await new Promise(resolve=>{ spinReel(reel0, pool, 1500, picks[0], resolve); });
   await new Promise(resolve=>{ spinReel(reel1, pool, 1500, picks[1] || picks[0], resolve); });
+  await new Promise(resolve=>{ spinReel(reel2, pool, 1500, picks[2] || picks[0], resolve); });
 
   setLid(false);
   burstConfetti();
@@ -1058,6 +1139,7 @@ async function runDraw(){
   showResult(picks, true);
   document.getElementById('alreadyNote').style.display='flex';
   document.getElementById('drawHint').textContent = "Already drawn.";
+  renderRemaining();
 }
 
 /* ---------------- QUIZ / GRADING ---------------- */
@@ -1076,23 +1158,25 @@ function shuffleQuestionOptions(qObj){
   };
 }
 
-function pickTwoQuestions(lecture){
-  const arr = lecture.questions.slice();
-  for(let i=arr.length-1;i>0;i--){
-    const j = Math.floor(Math.random()*(i+1));
-    [arr[i],arr[j]] = [arr[j],arr[i]];
+function pickQuestionSets(lecture){
+  const all = shuffled(lecture.questions).map(shuffleQuestionOptions);
+  const sets = [];
+  for(let i=0;i<PICKS_PER_SESSION;i++){
+    const set = [];
+    for(let k=0;k<2;k++) set.push(all[(i*2+k) % all.length]);
+    sets.push(set);
   }
-  const shuffled = arr.map(shuffleQuestionOptions);
-  return [shuffled.slice(0,2), shuffled.slice(2,4)];
+  return sets;
 }
 
 function showResult(picks, animated){
   if(!animated){
     document.getElementById('reels').style.visibility='visible';
-    const r0 = document.getElementById('reel0'), r1 = document.getElementById('reel1');
-    r0.querySelector('.name').textContent = picks[0] || '—';
-    r1.querySelector('.name').textContent = picks[1] || (picks[0]||'—');
-    r0.classList.add('landed'); r1.classList.add('landed');
+    ['reel0','reel1','reel2'].forEach((id,i)=>{
+      const r = document.getElementById(id);
+      r.querySelector('.name').textContent = picks[i] || '—';
+      r.classList.add('landed');
+    });
   }
   renderQuiz(picks);
 }
@@ -1102,8 +1186,7 @@ function renderQuiz(picks){
   const wrap = document.getElementById('quizWrap');
   wrap.innerHTML = '';
   wrap.classList.add('visible');
-  const [qs0, qs1] = pickTwoQuestions(l);
-  const sets = [qs0, qs1];
+  const sets = pickQuestionSets(l);
 
   if(!STATE.history[l.id]) STATE.history[l.id] = { picked:picks, topic:l.topic, file:l.file, answers:{} };
   if(!STATE.history[l.id].answers) STATE.history[l.id].answers = {};
@@ -1230,8 +1313,13 @@ function renderProbability(){
   document.getElementById('probLectureSelect').value = currentIdx;
 
   const candidates = computeCandidates(l);
-  const weighted = candidates.map(name=>({name, w:weightFor(name)}));
-  const total = weighted.reduce((s,c)=>s+c.w,0);
+  const runs = 300, hits = {};
+  candidates.forEach(n=>{ hits[n]=0; });
+  if(!STATE.history[l.id]){
+    for(let r=0;r<runs;r++) drawNames(l).forEach(n=>{ if(n in hits) hits[n]++; });
+  }
+  const weighted = ROSTER.filter(n=>!l.presenters.includes(n)).map(name=>({name, w:(hits[name]||0)/runs}));
+  const total = 1;
   weighted.sort((a,b)=>b.w-a.w);
 
   const excludedSet = new Set(l.presenters);
@@ -1239,7 +1327,7 @@ function renderProbability(){
   list.innerHTML='';
 
   weighted.forEach(({name,w})=>{
-    const pct = ((w/total)*100).toFixed(1);
+    const pct = (w*100).toFixed(1);
     const row = document.createElement('div');
     row.className='prob-row';
     row.innerHTML = `
