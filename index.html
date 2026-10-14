@@ -293,6 +293,12 @@
 
   /* grading tab */
   .grade-table-wrap{overflow-x:auto;}
+  .deck-viewer{position:sticky; top:0; z-index:5; background:var(--ink-1); border:1px solid var(--ink-3); border-radius:12px; padding:10px; margin-bottom:16px; box-shadow:0 8px 24px rgba(0,0,0,0.35);}
+  .deck-bar{display:flex; gap:10px; align-items:center; flex-wrap:wrap; margin-bottom:8px;}
+  .deck-bar select{flex:1; min-width:200px; max-width:520px;}
+  .deck-bar a, .deck-bar button{font-size:13px;}
+  .deck-frame{width:100%; height:42vh; min-height:240px; border:0; border-radius:8px; background:#fff; resize:vertical; overflow:auto; display:block;}
+  .deck-viewer.collapsed .deck-frame{display:none;}
   table.grade-table{width:100%; border-collapse:collapse; font-size:13px; min-width:920px;}
   table.grade-table th{
     text-align:left; font-family:'IBM Plex Mono', monospace; font-size:10.5px; color:var(--text-dim);
@@ -435,6 +441,14 @@
 
   <div class="tab-panel" id="tab-grading">
     <div class="panel-body">
+      <div class="deck-viewer" id="deckViewer">
+        <div class="deck-bar">
+          <select id="deckSelect"></select>
+          <a class="qr-btn secondary" id="deckOpen" href="#" target="_blank" rel="noopener">Open in new tab</a>
+          <button class="qr-btn secondary" id="deckToggle" type="button">Hide slides</button>
+        </div>
+        <iframe class="deck-frame" id="deckFrame" title="Presentation slides"></iframe>
+      </div>
       <div class="grade-table-wrap">
         <table class="grade-table" id="gradeTable">
           <thead><tr>
@@ -1466,7 +1480,37 @@ function computeTotal100(g){
   return t;
 }
 
+function showDeck(id){
+  const l = SCHEDULE[Number(id)];
+  if(!l) return;
+  const url = 'slides/' + encodeURIComponent(l.file.replace(/\.pptx$/i,'.pdf'));
+  const frame = document.getElementById('deckFrame');
+  if(frame.dataset.src !== url){ frame.dataset.src = url; frame.src = url + '#view=FitH'; }
+  document.getElementById('deckOpen').href = url;
+  document.getElementById('deckSelect').value = String(id);
+}
+
+function setupDeckViewer(){
+  const sel = document.getElementById('deckSelect');
+  if(!sel.options.length){
+    SCHEDULE.forEach((l,i)=>{
+      const o = document.createElement('option');
+      o.value = String(i);
+      o.textContent = `${fmtDate(l.date)} — ${l.topic}`;
+      sel.appendChild(o);
+    });
+    sel.addEventListener('change', ()=> showDeck(sel.value));
+    document.getElementById('deckToggle').addEventListener('click', ()=>{
+      const v = document.getElementById('deckViewer');
+      v.classList.toggle('collapsed');
+      document.getElementById('deckToggle').textContent = v.classList.contains('collapsed') ? 'Show slides' : 'Hide slides';
+    });
+  }
+  showDeck(sel.value || String(currentIdx));
+}
+
 async function renderGradingTab(){
+  setupDeckViewer();
   const body = document.getElementById('gradeBody');
   body.innerHTML = '';
   for(let i=0;i<SCHEDULE.length;i++){
@@ -1493,6 +1537,10 @@ async function renderGradingTab(){
       body.appendChild(tr);
     });
   }
+
+  body.querySelectorAll('input').forEach(inp=>{
+    inp.addEventListener('focus', ()=> showDeck(inp.dataset.id));
+  });
 
   body.querySelectorAll('input[type=number]').forEach(inp=>{
     inp.addEventListener('change', async ()=>{
