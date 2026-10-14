@@ -446,6 +446,7 @@
           <select id="deckSelect"></select>
           <a class="qr-btn secondary" id="deckOpen" href="#" target="_blank" rel="noopener">Open in new tab</a>
           <button class="qr-btn secondary" id="deckToggle" type="button">Hide slides</button>
+          <button class="qr-btn secondary" id="gradeScopeBtn" type="button">Show full sheet</button>
         </div>
         <iframe class="deck-frame" id="deckFrame" title="Presentation slides"></iframe>
       </div>
@@ -1480,6 +1481,16 @@ function computeTotal100(g){
   return t;
 }
 
+let gradeShowAll = false;
+
+function applyGradeFilter(){
+  const sel = document.getElementById('deckSelect').value;
+  document.querySelectorAll('#gradeBody tr').forEach(tr=>{
+    tr.style.display = (gradeShowAll || tr.dataset.session === sel) ? '' : 'none';
+  });
+  document.getElementById('gradeScopeBtn').textContent = gradeShowAll ? 'Show this session only' : 'Show full sheet';
+}
+
 function showDeck(id){
   const l = SCHEDULE[Number(id)];
   if(!l) return;
@@ -1488,6 +1499,7 @@ function showDeck(id){
   if(frame.dataset.src !== url){ frame.dataset.src = url; frame.src = url + '#view=FitH'; }
   document.getElementById('deckOpen').href = url;
   document.getElementById('deckSelect').value = String(id);
+  applyGradeFilter();
 }
 
 function setupDeckViewer(){
@@ -1500,6 +1512,7 @@ function setupDeckViewer(){
       sel.appendChild(o);
     });
     sel.addEventListener('change', ()=> showDeck(sel.value));
+    document.getElementById('gradeScopeBtn').addEventListener('click', ()=>{ gradeShowAll = !gradeShowAll; applyGradeFilter(); });
     document.getElementById('deckToggle').addEventListener('click', ()=>{
       const v = document.getElementById('deckViewer');
       v.classList.toggle('collapsed');
@@ -1522,6 +1535,7 @@ async function renderGradingTab(){
     students.forEach((name, si)=>{
       const g = STATE.grades[l.id][name];
       const tr = document.createElement('tr');
+      tr.dataset.session = l.id;
       tr.innerHTML = `
         ${si===0 ? `
           <td rowspan="${students.length}">${i+1}</td>
@@ -1538,6 +1552,7 @@ async function renderGradingTab(){
     });
   }
 
+  applyGradeFilter();
   body.querySelectorAll('input').forEach(inp=>{
     inp.addEventListener('focus', ()=> showDeck(inp.dataset.id));
   });
