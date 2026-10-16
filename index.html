@@ -471,13 +471,15 @@
 </div>
 
 <div id="pinGate" class="pin-gate">
-  <div class="review-card" style="max-width:320px; text-align:center;">
-    <h2>Enter PIN</h2>
-    <input type="password" id="pinInput" inputmode="numeric" autocomplete="off"
-      style="width:100%; text-align:center; letter-spacing:6px; font-size:20px; font-family:'IBM Plex Mono', monospace; padding:12px; border-radius:10px; border:1px solid var(--paper-line); margin:14px 0;">
-    <div id="pinError" style="display:none; color:var(--coral); font-size:13px; margin-bottom:10px;">Incorrect PIN</div>
-    <button class="submit-review-btn" id="pinSubmit">Unlock</button>
-  </div>
+  <form class="review-card" id="signInForm" style="max-width:340px; text-align:center;">
+    <h2>Instructor sign in</h2>
+    <input type="email" id="authEmail" autocomplete="username" placeholder="Email"
+      style="width:100%; font-size:15px; font-family:'Space Grotesk', sans-serif; padding:12px; border-radius:10px; border:1px solid var(--paper-line); margin:14px 0 0;">
+    <input type="password" id="authPassword" autocomplete="current-password" placeholder="Password"
+      style="width:100%; font-size:15px; font-family:'Space Grotesk', sans-serif; padding:12px; border-radius:10px; border:1px solid var(--paper-line); margin:10px 0 14px;">
+    <div id="pinError" style="display:none; color:var(--coral); font-size:13px; margin-bottom:10px;">Incorrect email or password</div>
+    <button class="submit-review-btn" id="pinSubmit" type="submit">Sign in</button>
+  </form>
 </div>
 
 <div id="reviewMode">
@@ -679,11 +681,7 @@ SCHEDULE.forEach((l,i)=>{ l.id = String(i); });
 
 const FIREBASE_URL = "https://rollcall--cs160-default-rtdb.firebaseio.com";
 const APP_URL = "https://bhargav-shivbhakta.github.io/roll-call-raffle/";
-// NOTE: the Firebase database is open (no login required), which is what makes
-// fetch() calls from any hosted page work reliably. That means this PIN is a
-// UI-level deterrent only — it's visible to anyone who views this page's
-// source. It stops casual snooping, not a determined technical visitor.
-const DASHBOARD_PIN = "7054";
+const FIREBASE_API_KEY = "PASTE_WEB_API_KEY_HERE";
 
 /* ---------------- STATE / STORAGE ---------------- */
 
@@ -731,9 +729,41 @@ function fbPath(key){
   return key.replace(/[.:#$\[\]]/g, '_');
 }
 
+let AUTH = { idToken:null, refreshToken:null, expiresAt:0 };
+
+async function signIn(email, password){
+  const res = await fetch(`https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${FIREBASE_API_KEY}`, {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({email, password, returnSecureToken:true})
+  });
+  if(!res.ok) return false;
+  const d = await res.json();
+  AUTH = { idToken:d.idToken, refreshToken:d.refreshToken, expiresAt: Date.now() + (Number(d.expiresIn)-120)*1000 };
+  return true;
+}
+
+async function refreshAuthIfNeeded(){
+  if(!AUTH.refreshToken || Date.now() < AUTH.expiresAt) return;
+  try{
+    const res = await fetch(`https://securetoken.googleapis.com/v1/token?key=${FIREBASE_API_KEY}`, {
+      method:'POST', headers:{'Content-Type':'application/x-www-form-urlencoded'},
+      body: `grant_type=refresh_token&refresh_token=${encodeURIComponent(AUTH.refreshToken)}`
+    });
+    if(!res.ok) return;
+    const d = await res.json();
+    AUTH = { idToken:d.id_token, refreshToken:d.refresh_token, expiresAt: Date.now() + (Number(d.expires_in)-120)*1000 };
+  }catch(e){ console.error('token refresh failed', e); }
+}
+
+async function fbUrl(key){
+  await refreshAuthIfNeeded();
+  const base = `${FIREBASE_URL}/${fbPath(key)}.json`;
+  return AUTH.idToken ? `${base}?auth=${encodeURIComponent(AUTH.idToken)}` : base;
+}
+
 async function fbGet(key){
   try{
-    const res = await fetch(`${FIREBASE_URL}/${fbPath(key)}.json`);
+    const res = await fetch(await fbUrl(key));
     if(!res.ok) return null;
     return await res.json();
   }catch(e){ console.error('fbGet failed', e); return null; }
@@ -741,7 +771,7 @@ async function fbGet(key){
 
 async function fbSet(key, value){
   try{
-    const res = await fetch(`${FIREBASE_URL}/${fbPath(key)}.json`, {
+    const res = await fetch(await fbUrl(key), {
       method: 'PUT',
       headers: {'Content-Type':'application/json'},
       body: JSON.stringify(value)
@@ -750,12 +780,11 @@ async function fbSet(key, value){
   }catch(e){ console.error('fbSet failed', e); return false; }
 }
 
-// Adds one item under a key without overwriting existing items — Firebase
-// generates a unique child id per push, so simultaneous submissions (e.g.
-// several students submitting feedback around the same time) never collide.
+// Adds one item under a key without overwriting existing items; Firebase
+// generates a unique child id per push, so simultaneous submissions never collide.
 async function fbPush(key, value){
   try{
-    const res = await fetch(`${FIREBASE_URL}/${fbPath(key)}.json`, {
+    const res = await fetch(await fbUrl(key), {
       method: 'POST',
       headers: {'Content-Type':'application/json'},
       body: JSON.stringify(value)
@@ -1705,27 +1734,30 @@ async function init(){
 function showPinGate(){
   const gate = document.getElementById('pinGate');
   gate.style.display = 'flex';
-  const input = document.getElementById('pinInput');
+  const form = document.getElementById('signInForm');
+  const email = document.getElementById('authEmail');
+  const pass = document.getElementById('authPassword');
   const err = document.getElementById('pinError');
   const btn = document.getElementById('pinSubmit');
 
-  function attempt(){
-    const candidate = input.value;
-    if(candidate === DASHBOARD_PIN){
+  form.addEventListener('submit', async (ev)=>{
+    ev.preventDefault();
+    btn.disabled = true;
+    let ok = false;
+    try{ ok = await signIn(email.value.trim(), pass.value); }catch(e){ console.error(e); }
+    btn.disabled = false;
+    if(ok){
+      pass.value = '';
       gate.style.display = 'none';
       document.getElementById('mainApp').style.display = 'block';
       initDashboard();
     } else {
-      err.textContent = 'Incorrect PIN';
       err.style.display = 'block';
-      input.value = '';
-      input.focus();
+      pass.value = '';
+      pass.focus();
     }
-  }
-
-  btn.addEventListener('click', attempt);
-  input.addEventListener('keydown', (ev)=>{ if(ev.key==='Enter') attempt(); });
-  input.focus();
+  });
+  email.focus();
 }
 
 async function initDashboard(){
