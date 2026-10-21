@@ -510,164 +510,164 @@ const SCHEDULE = [
 {date:"2026-09-08", topic:"Objects and Classes — Part 1", file:"Class6-Chapter7-1-1.pptx", slides:18,
  presenters:["Vivien Sanchez","Michael Rivera"],
  questions:[
-  q("What is an object in programming?", ["An instance of a class","A type of loop","A programming language","A file extension"],0,"An object is created from a class — the class is the blueprint, the object is the actual thing."),
-  q("What is a class?", ["A blueprint used to create objects","A single variable","A type of exception","A software company"],0,"A class describes what an object will look like and what it can do."),
-  q("What does abstraction mean, in simple terms?", ["Hiding the complex details and showing only what's needed","Making code run slower","Deleting unused code","Writing comments"],0,"Think of a car: you use the steering wheel without needing to know how the engine works."),
-  q("What is a constructor used for?", ["To create and set up a new object","To delete an object","To print output to the screen","To sort a list"],0,"A constructor runs automatically when an object is created, to set its starting values.")
+  q("What is an object in programming?", ["An instance created from a class", "A loop that repeats a block of code", "A language used to write programs", "A file saved with a special extension"],0,"An object is created from a class — the class is the blueprint, the object is the actual thing."),
+  q("What is a class?", ["A blueprint used to create objects", "A single variable holding one number", "A special kind of runtime exception", "A saved copy of a finished program"],0,"A class describes what an object will look like and what it can do."),
+  q("What does abstraction mean, in simple terms?", ["Hiding complex details and showing what's needed", "Making the code run more slowly on purpose", "Deleting any code that is never used anywhere", "Adding a comment beside every line of code"],0,"Think of a car: you use the steering wheel without needing to know how the engine works."),
+  q("What is a constructor used for?", ["To create and set up a new object", "To remove an object from memory", "To print output to the screen", "To sort the items in a list"],0,"A constructor runs automatically when an object is created, to set its starting values.")
  ]},
 {date:"2026-09-08", topic:"Objects and Classes — Part 2", file:"Class6-Chapter7-2-1.pptx", slides:22,
  presenters:["Devin Williams","Chamar Fontenot"],
  questions:[
-  q("What does 'this' refer to inside a class?", ["The current object","A different class","A loop variable","An error"],0,"'this' just means 'the object I'm currently working with.'"),
-  q("What is method overriding, in simple terms?", ["A subclass changes how an inherited method works","Making a method private","Deleting a method","Running two methods at once"],0,"The subclass keeps the same method name but gives it new behavior."),
-  q("What happens if you don't write any constructor for a class?", ["Java gives your class a free, empty default one","The program won't compile","Every field becomes private","Nothing happens at all"],0,"Java automatically supplies a simple no-argument constructor if you didn't write one yourself."),
-  q("Are wrapper objects like Integer changeable after they're created?", ["No, they are immutable","Yes, always","Only inside loops","Only if you use 'this'"],0,"Once made, a wrapper object's value can't be changed — a new object is made instead.")
+  q("What does 'this' refer to inside a class?", ["The current object being worked with", "A different class in the program", "A loop variable counting each pass", "An error message from the compiler"],0,"'this' just means 'the object I'm currently working with.'"),
+  q("What is method overriding, in simple terms?", ["A subclass changes how an inherited method works", "A method is made private so nobody can use it", "A method is deleted from the parent class", "Two methods are forced to run at the same time"],0,"The subclass keeps the same method name but gives it new behavior."),
+  q("What happens if you don't write any constructor for a class?", ["Java supplies a free, empty default constructor", "The program refuses to compile at all", "Every field in the class becomes private", "The class can no longer create any objects"],0,"Java automatically supplies a simple no-argument constructor if you didn't write one yourself."),
+  q("Are wrapper objects like Integer changeable after they're created?", ["No, their values cannot be changed once created", "Yes, their values can be changed at any time", "Only when they are used inside a loop", "Only if the keyword 'this' is used"],0,"Once made, a wrapper object's value can't be changed — a new object is made instead.")
  ]},
 {date:"2026-09-10", topic:"Objects and Classes — Part 3", file:"Class8-Chapter7-3-1.pptx", slides:17,
  presenters:["Vishakh Pillai","Yacob Serawit"],
  questions:[
-  q("What is a package used for in Java?", ["Grouping related classes together","Running the program faster","Storing images","Creating loops"],0,"Think of a package like a folder that organizes related classes."),
-  q("What makes a static field different from a regular field?", ["It is shared by every object of the class","It belongs to only one object","It can never be used","It's always private"],0,"All objects of the class see the same static field, instead of each having their own copy."),
-  q("Why do programmers write tests (a testbench)?", ["To check that code works the way it should","To make the code shorter","To skip debugging entirely","To delete bugs automatically"],0,"Tests compare expected output to actual output to catch mistakes early."),
-  q("What's a benefit of ArrayList over a plain array?", ["It can grow or shrink in size","It always uses less memory","It can't store objects","It's a primitive type"],0,"A plain array's size is fixed once created; an ArrayList can add or remove items freely.")
+  q("What is a package used for in Java?", ["Grouping related classes together", "Making the whole program run faster", "Storing pictures used by the program", "Creating loops that repeat forever"],0,"Think of a package like a folder that organizes related classes."),
+  q("What makes a static field different from a regular field?", ["It is shared by every object of the class", "It belongs to just one object of the class", "It can never be used inside a method", "It is always hidden from other classes"],0,"All objects of the class see the same static field, instead of each having their own copy."),
+  q("Why do programmers write tests (a testbench)?", ["To check that code works the way it should", "To make the code shorter and easier to read", "To skip the need for any debugging", "To automatically remove bugs from the code"],0,"Tests compare expected output to actual output to catch mistakes early."),
+  q("What's a benefit of ArrayList over a plain array?", ["It can grow or shrink as items are added", "It always uses less memory than an array", "It is unable to store any objects", "It is a primitive type like int"],0,"A plain array's size is fixed once created; an ArrayList can add or remove items freely.")
  ]},
 {date:"2026-09-15", topic:"Inheritance and Polymorphism", file:"Class9-Chapter8.pptx", slides:17,
  presenters:["Jason Shervanick","Nathan Mangosing"],
  questions:[
-  q("What is inheritance, in simple terms?", ["A class gaining properties and behavior from another class","Copying and pasting code","Deleting a class","Running code twice"],0,"A subclass automatically gets the fields and methods of its superclass."),
-  q("Can a Java class extend more than one class at the same time?", ["No, only one","Yes, unlimited","Yes, exactly two","Only interfaces can extend"],0,"Java classes support single inheritance — one direct superclass only."),
-  q("Which keyword lets you call a method from the parent class?", ["super","this","import","extends"],0,"super.methodName() reaches up to the parent class's version of that method."),
-  q("What does polymorphism mean?", ["The same action behaves differently depending on the object","Only using one data type ever","Deleting old code","Making a program run faster"],0,"Different objects can respond to the same method call in their own way.")
+  q("What is inheritance, in simple terms?", ["A class gaining fields and methods from another", "Copying and pasting code between many files", "Deleting a class once it is no longer needed", "Running the very same code twice in a row"],0,"A subclass automatically gets the fields and methods of its superclass."),
+  q("Can a Java class extend more than one class at the same time?", ["No, a class can extend only one class", "Yes, it can extend as many as it wants", "Yes, but never more than two", "Only if every parent is an interface"],0,"Java classes support single inheritance — one direct superclass only."),
+  q("Which keyword lets you call a method from the parent class?", ["super", "this", "import", "extends"],0,"super.methodName() reaches up to the parent class's version of that method."),
+  q("What does polymorphism mean?", ["The same action can behave differently per object", "A program can only ever use a single data type", "Old code is deleted whenever new code is added", "A program is made to run faster each time it runs"],0,"Different objects can respond to the same method call in their own way.")
  ]},
 {date:"2026-09-17", topic:"Abstract Classes and Interfaces", file:"Class10-Chapter11_-1.pptx", slides:21,
  presenters:["Elijah Jacob","Angel Alvarado"],
  questions:[
-  q("Can you create an object directly from an abstract class?", ["No","Yes","Only sometimes","Only with a constructor"],0,"An abstract class must be extended by another class before you can make an object."),
-  q("How many interfaces can one Java class implement?", ["As many as it needs","Only one","None","Exactly two"],0,"Unlike extending classes, a class can implement several interfaces at once."),
-  q("What's the main idea behind an interface?", ["It lists methods a class must implement, without providing the code","It stores data only, no methods","It's exactly the same as a class","It can never have methods"],0,"An interface is like a contract — any class that implements it must fill in those methods."),
-  q("Why doesn't Java let a class inherit from two classes at once?", ["To avoid confusion if both parents have the same method","It's just not needed","It would slow the program down","There's no real reason"],0,"This mix-up is called the diamond problem, and Java sidesteps it by allowing only one parent class.")
+  q("Can you create an object directly from an abstract class?", ["No, it has to be extended by another class", "Yes, just like any other ordinary class can", "Yes, but only from inside the main method", "Only if the class has a constructor written"],0,"An abstract class must be extended by another class before you can make an object."),
+  q("How many interfaces can one Java class implement?", ["As many as it needs to", "Only one at any given time", "None, since interfaces cannot be used", "Exactly two and never any more"],0,"Unlike extending classes, a class can implement several interfaces at once."),
+  q("What's the main idea behind an interface?", ["It lists methods a class must provide, without code", "It holds only data fields and has no methods", "It works in exactly the same way as a class", "It is never allowed to contain any methods"],0,"An interface is like a contract — any class that implements it must fill in those methods."),
+  q("Why doesn't Java let a class inherit from two classes at once?", ["To avoid confusion when both parents share a method", "Because extra parent classes are never needed", "Because it would slow the whole program down", "Because Java simply has no rule about it at all"],0,"This mix-up is called the diamond problem, and Java sidesteps it by allowing only one parent class.")
  ]},
 {date:"2026-09-22", topic:"Exceptions and Error Handling", file:"Class12-Chapter9-1.pptx", slides:19,
  presenters:["Sumedha Kamaraju","Maya Krishnan"],
  questions:[
-  q("What is an exception?", ["An event that disrupts the normal flow of a program","A type of loop","A class name","A variable"],0,"Exceptions are Java's way of signaling that something unexpected went wrong."),
-  q("Which block of code catches an exception?", ["A catch block","A for block","A class block","A return block"],0,"Code that might fail goes in a try block; the catch block handles it if it does fail."),
-  q("When does a finally block run?", ["Almost always, whether or not an exception happened","Only if there's an error","Never","Only if there's no error"],0,"finally is the cleanup spot — closing files or connections — and it runs in nearly every case."),
-  q("Which keyword do you use to throw an exception on purpose?", ["throw","catch","finally","import"],0,"'throw' is used to raise an exception yourself, on purpose.")
+  q("What is an exception?", ["An event that disrupts the normal flow of a program", "A kind of loop that repeats until it finishes", "The name given to a class inside a package", "A variable used to store an error message"],0,"Exceptions are Java's way of signaling that something unexpected went wrong."),
+  q("Which block of code catches an exception?", ["A catch block", "A for block", "A class block", "A return block"],0,"Code that might fail goes in a try block; the catch block handles it if it does fail."),
+  q("When does a finally block run?", ["Whether or not an exception happened", "Only when an exception has happened", "Only when no exception has happened", "Never, unless the program is closed"],0,"finally is the cleanup spot — closing files or connections — and it runs in nearly every case."),
+  q("Which keyword do you use to throw an exception on purpose?", ["throw", "catch", "finally", "import"],0,"'throw' is used to raise an exception yourself, on purpose.")
  ]},
 {date:"2026-09-24", topic:"Exceptions, Streams, and File I/O", file:"Class13-Chapter10.pptx", slides:31,
  presenters:["Muhammad Anjum","Lloyd Ivan Ramirez"],
  questions:[
-  q("What does an InputStream do?", ["Reads data into your program","Deletes files","Writes data out","Compiles code"],0,"An InputStream brings data in — from a file, the keyboard, or elsewhere."),
-  q("What does an OutputStream do?", ["Sends data out, like writing to a file","Reads data in","Deletes a variable","Catches errors"],0,"An OutputStream is how a program writes data to a screen, file, or other destination."),
-  q("Why do we use try-catch when working with files?", ["Because file operations can cause errors we need to handle","To make the file smaller","To speed up reading","It's required syntax with no real reason"],0,"Files might be missing or unreadable, so we handle those possible errors gracefully."),
-  q("What is a 'stream,' simply put?", ["A sequence of data flowing in or out","A type of loop","A kind of class only","A sorting method"],0,"Data moves through a stream one piece at a time, either coming in or going out.")
+  q("What does an InputStream do?", ["Reads data into your program", "Deletes the files it is connected to", "Writes data out to a destination", "Compiles code into a program"],0,"An InputStream brings data in — from a file, the keyboard, or elsewhere."),
+  q("What does an OutputStream do?", ["Sends data out, like writing to a file", "Brings data in, like reading a file", "Removes a variable from memory", "Catches errors that happen while running"],0,"An OutputStream is how a program writes data to a screen, file, or other destination."),
+  q("Why do we use try-catch when working with files?", ["File operations can fail, so errors must be handled", "It makes the file smaller when it is saved", "It makes reading from a file much faster", "It is just required syntax with no real purpose"],0,"Files might be missing or unreadable, so we handle those possible errors gracefully."),
+  q("What is a 'stream,' simply put?", ["A sequence of data flowing in or out", "A repeating loop that never ends", "A kind of class that cannot be changed", "A way of sorting items in a list"],0,"Data moves through a stream one piece at a time, either coming in or going out.")
  ]},
 {date:"2026-10-06", topic:"Generic Programming", file:"Class14-Chapter12-1.pptx", slides:11,
  presenters:["Raul Carrera","Sajad Ali"],
  questions:[
-  q("What's the point of generic programming?", ["Writing code that works with many different data types","Making code run faster","Removing all errors","Avoiding classes entirely"],0,"One generic method or class can work with Strings, Integers, or any other type you plug in."),
-  q("When do generics catch type mistakes?", ["Before the program even runs, at compile time","Only while the program is running","Never","Only during testing"],0,"This is one of the main benefits — the compiler flags the mistake early instead of it surfacing as a runtime crash."),
-  q("Which of these is correct generics syntax?", ["ArrayList<Integer>","ArrayList<int>","List[int]","Array<Integer>"],0,"Generics need object types, like Integer — not primitive types like int."),
-  q("True or false: generics let one method work for many different types.", ["True","False","Only for numbers","Only for Strings"],0,"That reusability across types is the whole idea behind generics.")
+  q("What's the point of generic programming?", ["Writing code that works with many data types", "Making every program run faster than before", "Removing every possible error from a program", "Avoiding the use of any classes at all"],0,"One generic method or class can work with Strings, Integers, or any other type you plug in."),
+  q("When do generics catch type mistakes?", ["Before the program runs, at compile time", "Only while the program is running", "Only after the program has crashed", "Never, since Java cannot check types"],0,"This is one of the main benefits — the compiler flags the mistake early instead of it surfacing as a runtime crash."),
+  q("Which of these is correct generics syntax?", ["ArrayList<Integer>", "ArrayList<integer value>", "List[Integer] as in Python", "ArrayList(Integer) with brackets"],0,"Generics need object types, like Integer — not primitive types like int."),
+  q("What does the <T> in a generic class stand for?", ["A placeholder for a type chosen later", "A fixed number type built into Java", "The name of the package holding the class", "A keyword that ends the program"],0,"That reusability across types is the whole idea behind generics.")
  ]},
 {date:"2026-10-08", topic:"Lists, ArrayList, and Linked Lists", file:"Class15-Chapter13-1-1.pptx", slides:18,
  presenters:["Emily Topete","Diana Pominova"],
  questions:[
-  q("What's different about an ArrayList compared to a regular array?", ["It can grow and shrink in size","It can't hold numbers","It's not an object","It's always empty"],0,"A regular array's size is fixed; ArrayList adjusts its size as you add or remove items."),
-  q("In a linked list, what does each node store?", ["Some data and a link to the next node","Only data","Only a link","Nothing at all"],0,"Each node carries a piece of data plus a pointer showing where the next node is."),
-  q("What is the 'head' of a linked list?", ["The first node","The last node","A random node","The node with the biggest value"],0,"You always start walking through a linked list from its head."),
-  q("What makes a doubly linked list different from a singly linked list?", ["Each node also links back to the previous node","It has two heads","It can't be searched","It stores no data"],0,"That extra backward link lets you travel the list in either direction.")
+  q("What's different about an ArrayList compared to a regular array?", ["It can grow and shrink as needed", "It is unable to hold any numbers", "It is not treated as an object", "It always starts out holding items"],0,"A regular array's size is fixed; ArrayList adjusts its size as you add or remove items."),
+  q("In a linked list, what does each node store?", ["Some data and a link to the next node", "Only data, with no links at all", "Only a link, with no data at all", "A copy of every other node in the list"],0,"Each node carries a piece of data plus a pointer showing where the next node is."),
+  q("What is the 'head' of a linked list?", ["The first node in the list", "The last node in the list", "A randomly chosen node", "The node holding the largest value"],0,"You always start walking through a linked list from its head."),
+  q("What makes a doubly linked list different from a singly linked list?", ["Each node also links to the previous node", "The list is built using two separate heads", "The list can no longer be searched through", "The nodes in the list store no data at all"],0,"That extra backward link lets you travel the list in either direction.")
  ]},
 {date:"2026-10-13", topic:"Linked Lists, Stacks, Queues, Deque, and Bags", file:"Class16-Chapter13-2-1.pptx", slides:27,
  presenters:["Olivia Tran","Jordan Mendoza"],
  questions:[
-  q("A Stack works like:", ["A stack of plates — the last one added is the first one removed","A line at a store","A random pile","A sorted list"],0,"That's Last In, First Out — the most recent item added comes off first."),
-  q("A Queue works like:", ["A line at a store — the first one in is the first one out","A stack of plates","A random pile","A sorted list"],0,"That's First In, First Out — just like waiting your turn in line."),
-  q("What can you do with a Deque that you can't do with a normal Queue?", ["Add or remove items from both ends","Only add to the front","Only remove from the back","Nothing different"],0,"Deque means 'double-ended queue' — both ends are open for adding and removing."),
-  q("What's special about a Bag?", ["It can hold duplicate items in no particular order","It never allows duplicates","It's always sorted","It only holds one item"],0,"A Bag is just an unordered collection where repeats are perfectly fine."),
-  q("What does 'push' do on a Stack?", ["Adds an item to the top","Removes the top item","Sorts the stack","Empties the stack"],0,"Push puts a new item on top, like placing a plate on the pile."),
-  q("In a linked list, each node stores:", ["A value and a link to the next node","Only a number","Only a name","A sorted copy of the list"],0,"Nodes are chained together by links, so each one points to the next.")
+  q("A Stack works like:", ["A stack of plates: the last on is the first off", "A line at a store: the first in is first out", "A random pile: any item can leave at any time", "A sorted list: the smallest item leaves first"],0,"That's Last In, First Out — the most recent item added comes off first."),
+  q("A Queue works like:", ["A line at a store, where the first in is first out", "A stack of plates, where the last on is first off", "A random pile, where any item can leave", "A sorted list, where the largest leaves first"],0,"That's First In, First Out — just like waiting your turn in line."),
+  q("What can you do with a Deque that you can't do with a normal Queue?", ["Add or remove items at both ends", "Add items only at the front", "Remove items only from the back", "Nothing, since they work the same"],0,"Deque means 'double-ended queue' — both ends are open for adding and removing."),
+  q("What's special about a Bag?", ["It can hold duplicates in no set order", "It never allows any duplicate items inside", "It always keeps its items sorted in order", "It can only ever hold one single item"],0,"A Bag is just an unordered collection where repeats are perfectly fine."),
+  q("What does 'push' do on a Stack?", ["Adds an item to the top", "Removes the item from the top", "Sorts all the items in the stack", "Empties every item from the stack"],0,"Push puts a new item on top, like placing a plate on the pile."),
+  q("In a linked list, each node stores:", ["A value and a link to the next node", "Only a number with nothing else", "Only a name with nothing else", "A sorted copy of the whole list"],0,"Nodes are chained together by links, so each one points to the next.")
  ]},
 {date:"2026-10-15", topic:"Recursion", file:"Class17-Chapter14-1.pptx", slides:27,
  presenters:["Conor Mullins","Matthew Hernandez"],
  questions:[
-  q("What is recursion?", ["A method that calls itself","A method that never ends","A type of loop only","A way to delete code"],0,"A recursive method solves a problem by calling a smaller version of itself."),
-  q("What is a 'base case' for?", ["To stop the recursion from continuing forever","To start the recursion","To slow the program down","To cause an error"],0,"The base case is the simple situation that doesn't need another recursive call."),
-  q("What happens if a recursive method has no base case?", ["It keeps calling itself forever and crashes","It runs once and stops","It skips itself entirely","Nothing happens"],0,"Without a stopping point, the calls pile up until the program runs out of memory."),
-  q("Why is binary search a good example of recursion?", ["It keeps splitting the problem in half","It checks every item one by one","It never repeats itself","It sorts the list first"],0,"Each recursive call works on a smaller half of the remaining list."),
-  q("Which of these is a typical example of recursion?", ["Factorial","Printing one line","Declaring a variable","Importing a package"],0,"Factorial of n is n times the factorial of n-1, so it calls itself with a smaller number."),
-  q("Each recursive call should work on:", ["A smaller version of the problem","A bigger version of the problem","The exact same problem","A random problem"],0,"Getting smaller each time is what lets the calls eventually reach the base case.")
+  q("What is recursion?", ["A method that calls itself", "A method that never finishes running", "A kind of loop that cannot be nested", "A way of deleting unused code"],0,"A recursive method solves a problem by calling a smaller version of itself."),
+  q("What is a 'base case' for?", ["To stop the recursion from going on forever", "To begin the very first recursive call", "To make the program run more slowly", "To make the program produce an error"],0,"The base case is the simple situation that doesn't need another recursive call."),
+  q("What happens if a recursive method has no base case?", ["It keeps calling itself until it crashes", "It runs exactly once and then stops there", "It skips over itself and simply moves on", "It quietly returns the number zero each time"],0,"Without a stopping point, the calls pile up until the program runs out of memory."),
+  q("Why is binary search a good example of recursion?", ["It keeps splitting the problem in half", "It checks every single item one by one", "It never repeats any of the same steps", "It sorts the entire list before searching"],0,"Each recursive call works on a smaller half of the remaining list."),
+  q("Which of these is a typical example of recursion?", ["Factorial", "Printing a single line", "Declaring one variable", "Importing a package"],0,"Factorial of n is n times the factorial of n-1, so it calls itself with a smaller number."),
+  q("Each recursive call should work on:", ["A smaller version of the problem", "A larger version of the problem", "Exactly the same problem again", "A completely unrelated problem"],0,"Getting smaller each time is what lets the calls eventually reach the base case.")
  ]},
 {date:"2026-10-20", topic:"Algorithms and Complexity", file:"Class18-Chapter16-1-1.pptx", slides:18,
  presenters:["Samuel Goldman","Zachary Desantis"],
  questions:[
-  q("What does 'complexity' describe about an algorithm?", ["How its runtime grows as the input gets bigger","How neatly the code is written","The programming language used","How many comments it has"],0,"Complexity is about scaling — how much slower things get as the input grows."),
-  q("For a large sorted list, which search is generally faster?", ["Binary search","Linear search","They're the same speed","Neither can search a list"],0,"Binary search skips over big chunks of the list instead of checking every item."),
-  q("What is Big O notation used for?", ["Roughly describing how fast or slow an algorithm is","Naming variables","Formatting output text","Writing loops"],0,"It's a simple way to compare how algorithms scale, without measuring exact seconds."),
-  q("If a loop runs many more times, what generally happens to the runtime?", ["It takes longer overall","It runs faster","It stays exactly the same","It stops early"],0,"More repetitions of the same work usually means more total time."),
-  q("Linear search checks the items:", ["One by one from the start","By jumping to the middle first","Only the last item","In random order"],0,"Linear search just walks through the list until it finds the target."),
-  q("Binary search only works if the list is:", ["Sorted","Empty","Full of duplicates","Very short"],0,"It relies on the order to know which half to throw away.")
+  q("What does 'complexity' describe about an algorithm?", ["How its running time grows as the input grows", "How neatly and clearly the code is written", "Which programming language it was written in", "How many comments the code contains"],0,"Complexity is about scaling — how much slower things get as the input grows."),
+  q("For a large sorted list, which search is generally faster?", ["Binary search", "Linear search", "Both take exactly the same time", "Neither can search a sorted list"],0,"Binary search skips over big chunks of the list instead of checking every item."),
+  q("What is Big O notation used for?", ["Roughly describing how fast an algorithm is", "Choosing clear and useful names for variables", "Formatting text before it is printed out", "Writing loops that repeat a great many times"],0,"It's a simple way to compare how algorithms scale, without measuring exact seconds."),
+  q("If a loop runs many more times, what generally happens to the runtime?", ["It generally takes longer overall", "It generally runs faster overall", "It stays exactly the same", "It stops early every time"],0,"More repetitions of the same work usually means more total time."),
+  q("Linear search checks the items:", ["One by one, starting from the first item", "By jumping straight to the middle item", "By looking only at the last item", "By picking items in a random order"],0,"Linear search just walks through the list until it finds the target."),
+  q("Binary search only works if the list is:", ["Sorted", "Empty", "Full of duplicates", "Shorter than ten items"],0,"It relies on the order to know which half to throw away.")
  ]},
 {date:"2026-10-22", topic:"Sorting Algorithms — Part 1", file:"Class19-Chapter16-2-1.pptx", slides:20,
  presenters:["Jack Harvey","Yifan Ou"],
  questions:[
-  q("What does Selection Sort do?", ["Repeatedly picks the smallest remaining item and moves it to the front","Randomly shuffles the items","Splits the list into two halves","Uses a hash table"],0,"Each pass finds the smallest leftover value and puts it in its correct spot."),
-  q("What does Bubble Sort do?", ["Repeatedly swaps neighboring items that are out of order","Picks the smallest item each time","Only uses recursion","Sorts by hashing values"],0,"Out-of-order neighbors get swapped again and again until the list settles."),
-  q("A 'stable' sort means:", ["Equal items keep their original order","The sort never fails","It uses no memory at all","It's always the fastest option"],0,"If two items are equal, a stable sort won't swap their relative positions."),
-  q("Insertion Sort is a lot like:", ["Sorting playing cards in your hand as you pick them up","Searching a phone book","Hashing values into buckets","Building a tree"],0,"You take each new item and slide it into the right spot among the ones you've already sorted."),
-  q("What is the goal of any sorting algorithm?", ["Put items in order","Delete items","Find the largest item only","Copy a list"],0,"Sorting arranges items from smallest to largest, or the other way around."),
-  q("Which sort is the simplest to understand but slow on big lists?", ["Bubble sort","Merge sort","Heap sort","Quick sort"],0,"Bubble sort just swaps neighbors again and again, which takes many passes.")
+  q("What does Selection Sort do?", ["Repeatedly picks the smallest item and moves it forward", "Randomly shuffles the items until they look sorted", "Splits the list into two halves and joins them again", "Uses a hash table to decide where each item goes"],0,"Each pass finds the smallest leftover value and puts it in its correct spot."),
+  q("What does Bubble Sort do?", ["Repeatedly swaps neighbors that are out of order", "Repeatedly picks the smallest item and moves it", "Splits the list in half using recursive calls", "Sorts the items by hashing each of their values"],0,"Out-of-order neighbors get swapped again and again until the list settles."),
+  q("A 'stable' sort means:", ["Equal items keep their original order", "The sort can never fail on any input", "The sort uses no extra memory at all", "The sort is always the fastest possible"],0,"If two items are equal, a stable sort won't swap their relative positions."),
+  q("Insertion Sort is a lot like:", ["Sorting playing cards in your hand one at a time", "Searching for a name in a printed phone book", "Hashing values into a set of separate buckets", "Building a tree starting from the very top node"],0,"You take each new item and slide it into the right spot among the ones you've already sorted."),
+  q("What is the goal of any sorting algorithm?", ["Put the items in order", "Remove the items from the list", "Find only the largest item", "Make a copy of the list"],0,"Sorting arranges items from smallest to largest, or the other way around."),
+  q("Which sort is the simplest to understand but slow on big lists?", ["Bubble sort", "Merge sort", "Heap sort", "Quick sort"],0,"Bubble sort just swaps neighbors again and again, which takes many passes.")
  ]},
 {date:"2026-10-27", topic:"Sorting Algorithms — Part 2", file:"Class20-Chapter16-3-1.pptx", slides:19,
  presenters:["Brendon Le","Julian Ngai"],
  questions:[
-  q("Quick Sort works by:", ["Picking a pivot and splitting the list around it","Merging two sorted halves together","Checking every neighboring pair","Using a hash table"],0,"Everything smaller than the pivot goes one side, everything bigger goes the other."),
-  q("Merge Sort works by:", ["Splitting the list in half, sorting each half, then combining them","Picking a pivot value","Comparing only neighboring items","Never using recursion"],0,"It keeps dividing the list until pieces are tiny, then merges the sorted pieces back together."),
-  q("Compared to Bubble, Selection, and Insertion sort, Merge and Heap sort are generally:", ["Much faster on large lists","Much slower on large lists","Exactly the same speed","Not real sorting algorithms"],0,"Merge and Heap sort scale much better as the list gets bigger."),
-  q("An 'in-place' sort means:", ["It doesn't need much extra memory to work","It needs a lot of extra memory","It can't sort numbers","It only works on already-sorted lists"],0,"An in-place sort rearranges items within the original list instead of copying to new storage."),
-  q("Merge sort combines two halves that are already:", ["Sorted","Empty","Random","Duplicated"],0,"Merging two sorted halves is easy because you only compare the front items."),
-  q("In Quick Sort, what is a pivot?", ["The value the list is split around","The last item always","The smallest item only","A new list"],0,"Smaller values go on one side of the pivot and larger values on the other.")
+  q("Quick Sort works by:", ["Picks a pivot and splits the list around it", "Merges two sorted halves into one list", "Checks every neighboring pair of items", "Uses a hash table to place each item"],0,"Everything smaller than the pivot goes one side, everything bigger goes the other."),
+  q("Merge Sort works by:", ["Splits the list in half, sorts each half, then joins", "Picks a pivot value and splits the list around it", "Compares only neighboring items again and again", "Avoids recursion by using one single long loop"],0,"It keeps dividing the list until pieces are tiny, then merges the sorted pieces back together."),
+  q("Compared to Bubble, Selection, and Insertion sort, Merge and Heap sort are generally:", ["Much faster on large lists", "Much slower on large lists", "Exactly the same speed on any list", "Not considered real sorting algorithms"],0,"Merge and Heap sort scale much better as the list gets bigger."),
+  q("An 'in-place' sort means:", ["It needs very little extra memory to work", "It needs a full second copy of the list", "It cannot be used to sort numbers", "It only works on lists that are already sorted"],0,"An in-place sort rearranges items within the original list instead of copying to new storage."),
+  q("Merge sort combines two halves that are already:", ["Sorted", "Empty", "Random", "Duplicated"],0,"Merging two sorted halves is easy because you only compare the front items."),
+  q("In Quick Sort, what is a pivot?", ["The value the list is split around", "The last item in the list, always", "The smallest item in the list only", "A brand new list of the results"],0,"Smaller values go on one side of the pivot and larger values on the other.")
  ]},
 {date:"2026-10-29", topic:"Introduction to Trees", file:"Class22-Chapter18-1-1.pptx", slides:19,
  presenters:["Eesha Devulkar","Amrutha Siri Kommidi"],
  questions:[
-  q("What is the 'root' of a tree?", ["The very top node, with no parent","The bottom node","Any node in the tree","A node with two children"],0,"Every tree has one root at the very top that everything branches down from."),
-  q("What is a 'leaf' node?", ["A node with no children","The root node","Any node with children","A node in the middle"],0,"Leaves are the end points at the bottom of the tree."),
-  q("In-order traversal visits nodes in what order?", ["Left side, then the node, then right side","Node, then left, then right","Right, then left, then node","Randomly"],0,"That left-node-right pattern is what 'in-order' means."),
-  q("What does the 'height' of a tree tell you?", ["How many levels deep the tree goes","How many leaves it has","How wide the tree is","The total number of nodes"],0,"A taller tree has more levels between the root and its deepest leaf."),
-  q("What is a 'child' node?", ["A node directly below another node","The top node","A node with no parent at all","A deleted node"],0,"Each node can have children that hang beneath it."),
-  q("In a binary tree, each node has at most how many children?", ["Two","One","Three","Ten"],0,"That is what 'binary' means: a left child and a right child.")
+  q("What is the 'root' of a tree?", ["The very top node, which has no parent", "The bottom node, which has no children", "Any node picked from the tree", "A node that has exactly two children"],0,"Every tree has one root at the very top that everything branches down from."),
+  q("What is a 'leaf' node?", ["A node with no children", "The very top node of the tree", "Any node that has children", "A node found in the middle"],0,"Leaves are the end points at the bottom of the tree."),
+  q("In-order traversal visits nodes in what order?", ["Left side, then the node, then the right side", "The node, then the left side, then the right side", "The right side, then the left side, then the node", "Whatever order the nodes were added in"],0,"That left-node-right pattern is what 'in-order' means."),
+  q("What does the 'height' of a tree tell you?", ["How many levels deep the tree goes", "How many leaves the tree has", "How wide the tree is at its base", "How many nodes the tree holds in total"],0,"A taller tree has more levels between the root and its deepest leaf."),
+  q("What is a 'child' node?", ["A node directly below another node", "The very top node of the tree", "A node that has no parent at all", "A node that has been deleted"],0,"Each node can have children that hang beneath it."),
+  q("In a binary tree, each node has at most how many children?", ["Two", "One", "Three", "Ten"],0,"That is what 'binary' means: a left child and a right child.")
  ]},
 {date:"2026-11-03", topic:"Binary Search Trees", file:"Class22-Chapter18-2-1.pptx", slides:12,
  presenters:["Eugene Cho","Everett Fox"],
  questions:[
-  q("In a Binary Search Tree, where do smaller values go?", ["To the left of a node","To the right of a node","At the root always","Anywhere at all"],0,"Smaller values always sit to the left in a BST."),
-  q("In a Binary Search Tree, where do larger values go?", ["To the right of a node","To the left of a node","At the leaves only","Nowhere — it's not allowed"],0,"Larger (or equal) values always sit to the right in a BST."),
-  q("Which traversal gives you the values in sorted order?", ["In-order traversal","Pre-order traversal","Post-order traversal","Level-order traversal"],0,"Because of the left-node-right pattern, in-order traversal naturally comes out sorted."),
-  q("What are the three main things you do with a BST?", ["Search, insert, and remove items","Push, pop, and peek","Read, write, and delete files","Enqueue and dequeue only"],0,"Those three operations cover almost everything you do with a BST."),
-  q("Where is the smallest value in a Binary Search Tree?", ["Far down the left side","At the root always","Far down the right side","In the middle"],0,"Keep going left until there is nothing more on the left."),
-  q("Why is a BST good for searching?", ["Each step lets you ignore about half of the remaining nodes","It checks every node","It stores items in a line","It never changes"],0,"Comparing with a node tells you whether to go left or right.")
+  q("In a Binary Search Tree, where do smaller values go?", ["To the left of a node", "To the right of a node", "Always at the root", "Anywhere in the tree"],0,"Smaller values always sit to the left in a BST."),
+  q("In a Binary Search Tree, where do larger values go?", ["To the right of a node", "To the left of a node", "Only at the leaves", "Nowhere, since they are not allowed"],0,"Larger (or equal) values always sit to the right in a BST."),
+  q("Which traversal gives you the values in sorted order?", ["In-order traversal", "Pre-order traversal", "Post-order traversal", "Level-order traversal"],0,"Because of the left-node-right pattern, in-order traversal naturally comes out sorted."),
+  q("What are the three main things you do with a BST?", ["Search, insert, and remove items", "Push, pop, and peek at items", "Read, write, and delete files", "Enqueue and dequeue items only"],0,"Those three operations cover almost everything you do with a BST."),
+  q("Where is the smallest value in a Binary Search Tree?", ["Far down the left side", "At the root, always", "Far down the right side", "Right in the middle"],0,"Keep going left until there is nothing more on the left."),
+  q("Why is a BST good for searching?", ["Each step lets you skip about half the nodes", "Each step has to check every single node there", "The items are kept in one long straight line", "The tree can never change after it is built"],0,"Comparing with a node tells you whether to go left or right.")
  ]},
 {date:"2026-11-12", topic:"Heaps and Priority Queues", file:"Class23-Chapter18-3-1.pptx", slides:20,
  presenters:["Louis Romero Caballero","Kai Mckinney"],
  questions:[
-  q("What's special about a Priority Queue?", ["It gives fast access to the smallest (or largest) item","It's always sorted alphabetically","It can only store one item","It's the same thing as a stack"],0,"Items come out based on priority, not just the order they were added."),
-  q("A heap is usually built using what shape?", ["A complete binary tree","A straight line","A hash table","A stack"],0,"That tree shape is what makes heaps efficient to store and update."),
-  q("When you add a new item to a heap, what has to happen?", ["The heap may need to reorganize itself to stay valid","Nothing happens","The whole heap gets deleted","It turns into a queue"],0,"The new item may need to move up until the heap's ordering rule is satisfied again."),
-  q("Heaps are commonly used to build which sorting algorithm?", ["Heap sort","Bubble sort","Insertion sort","Counting sort"],0,"Heap sort repeatedly removes the top item from a heap to build a sorted list."),
-  q("In a min-heap, the item at the top is:", ["The smallest item","The largest item","Always zero","A random item"],0,"A min-heap keeps its smallest value at the root."),
-  q("A heap is usually stored in:", ["An array","A text file","A hash table","A stack of plates"],0,"A complete tree fits neatly into an array, so no links are needed.")
+  q("What's special about a Priority Queue?", ["It gives fast access to the smallest or largest item", "It keeps every item sorted in alphabetical order", "It can only ever store one single item at a time", "It is simply another name for an ordinary stack"],0,"Items come out based on priority, not just the order they were added."),
+  q("A heap is usually built using what shape?", ["A complete binary tree", "A straight line of nodes", "A table of hashed keys", "A stack of items"],0,"That tree shape is what makes heaps efficient to store and update."),
+  q("When you add a new item to a heap, what has to happen?", ["It may need to reorganize itself to stay valid", "Nothing needs to happen to the heap at all", "The whole heap is deleted and then rebuilt", "The heap turns into an ordinary queue instead"],0,"The new item may need to move up until the heap's ordering rule is satisfied again."),
+  q("Heaps are commonly used to build which sorting algorithm?", ["Heap sort", "Bubble sort", "Insertion sort", "Counting sort"],0,"Heap sort repeatedly removes the top item from a heap to build a sorted list."),
+  q("In a min-heap, the item at the top is:", ["The smallest item", "The largest item", "Always the number zero", "A randomly chosen item"],0,"A min-heap keeps its smallest value at the root."),
+  q("A heap is usually stored in:", ["An array", "A text file", "A hash table", "A stack of plates"],0,"A complete tree fits neatly into an array, so no links are needed.")
  ]},
 {date:"2026-11-17", topic:"Hashing and HashMap", file:"Class24-Chapter17-1-1.pptx", slides:26,
  presenters:["Hunter Miller","Younis Bashir"],
  questions:[
-  q("What does a hash function do?", ["Turns a key into a spot (index) to store or find data","Sorts a list","Deletes data","Compares two files"],0,"It's like a quick formula that tells you exactly where to look."),
-  q("What is a 'collision' in hashing?", ["When two different keys land in the same spot","When the program crashes","When a key goes missing","When data gets sorted"],0,"Two different keys can sometimes hash to the same location — that's a collision."),
-  q("What's one common way to handle a collision?", ["Store multiple items together at that spot (chaining)","Ignore it and hope for the best","Delete both items","Stop the program"],0,"Chaining keeps a small list at each spot so more than one item can live there."),
-  q("How fast is looking something up in a good hash map, on average?", ["Very fast — close to instant","Very slow","The same as checking a list one item at a time","It depends on sorting first"],0,"A well-built hash map gives roughly constant-time lookups."),
-  q("In a HashMap, items are stored as:", ["Key and value pairs","Single numbers only","Sorted words only","Images"],0,"You look up a value by giving its key."),
-  q("What is a 'bucket' in hashing?", ["A spot in the table where items are stored","A kind of loop","An error message","A sorting method"],0,"The hash function sends each key to one bucket.")
+  q("What does a hash function do?", ["Turns a key into an index to store or find data", "Sorts a list of keys from smallest to largest", "Deletes data that is no longer needed at all", "Compares two files to see if they are the same"],0,"It's like a quick formula that tells you exactly where to look."),
+  q("What is a 'collision' in hashing?", ["Two different keys land in the same spot", "The program crashes while storing data", "A key goes missing from the table", "The data in the table gets sorted"],0,"Two different keys can sometimes hash to the same location — that's a collision."),
+  q("What's one common way to handle a collision?", ["Store several items together in one spot (chaining)", "Ignore the problem and hope that it goes away", "Delete both of the items that ended up colliding", "Stop the program from running any further"],0,"Chaining keeps a small list at each spot so more than one item can live there."),
+  q("How fast is looking something up in a good hash map, on average?", ["Very fast, close to instant", "Very slow, one item at a time", "About as slow as scanning a list", "Fast only after the data is sorted"],0,"A well-built hash map gives roughly constant-time lookups."),
+  q("In a HashMap, items are stored as:", ["Key and value pairs", "Single numbers only", "Sorted words only", "Image files"],0,"You look up a value by giving its key."),
+  q("What is a 'bucket' in hashing?", ["A spot in the table where items are stored", "A kind of loop that keeps repeating a block", "An error message shown by the compiler", "A method used for sorting a list of items"],0,"The hash function sends each key to one bucket.")
  ]}
 ];
 
@@ -681,7 +681,7 @@ SCHEDULE.forEach((l,i)=>{ l.id = String(i); });
 
 const FIREBASE_URL = "https://rollcall--cs160-default-rtdb.firebaseio.com";
 const APP_URL = "https://bhargav-shivbhakta.github.io/roll-call-raffle/";
-const FIREBASE_API_KEY = "AIzaSyBwMSfxoDnNYPEm2bpf4guRfK6Upm3iFdY";
+const FIREBASE_API_KEY = "PASTE_WEB_API_KEY_HERE";
 
 /* ---------------- STATE / STORAGE ---------------- */
 
@@ -731,13 +731,27 @@ function fbPath(key){
 
 let AUTH = { idToken:null, refreshToken:null, expiresAt:0 };
 
+function describeAuthError(code){
+  if(/INVALID_LOGIN_CREDENTIALS|INVALID_PASSWORD|EMAIL_NOT_FOUND/.test(code)) return 'Incorrect email or password.';
+  if(/API_KEY|API key/i.test(code)) return 'The Firebase Web API Key is missing or invalid.';
+  if(/OPERATION_NOT_ALLOWED|CONFIGURATION_NOT_FOUND/.test(code)) return 'Email/Password sign-in is not enabled in Firebase Authentication.';
+  if(/TOO_MANY_ATTEMPTS/.test(code)) return 'Too many attempts. Wait a few minutes and try again.';
+  if(/USER_DISABLED/.test(code)) return 'This account is disabled.';
+  if(/Failed to fetch|NetworkError/i.test(code)) return 'Could not reach Firebase. Check your connection.';
+  return 'Sign-in failed (' + code + ').';
+}
+
 async function signIn(email, password){
+  if(!FIREBASE_API_KEY || /PASTE_WEB_API_KEY_HERE/.test(FIREBASE_API_KEY)) throw new Error('API key not set');
   const res = await fetch(`https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${FIREBASE_API_KEY}`, {
     method:'POST', headers:{'Content-Type':'application/json'},
     body: JSON.stringify({email, password, returnSecureToken:true})
   });
-  if(!res.ok) return false;
-  const d = await res.json();
+  const d = await res.json().catch(()=>({}));
+  if(!res.ok){
+    const code = (d && d.error && d.error.message) || ('HTTP ' + res.status);
+    throw new Error(code);
+  }
   AUTH = { idToken:d.idToken, refreshToken:d.refreshToken, expiresAt: Date.now() + (Number(d.expiresIn)-120)*1000 };
   return true;
 }
@@ -1188,28 +1202,42 @@ async function runDraw(){
 
 /* ---------------- QUIZ / GRADING ---------------- */
 
-function shuffleQuestionOptions(qObj){
-  const idxArr = qObj.opts.map((_,i)=>i);
-  for(let i=idxArr.length-1;i>0;i--){
-    const j = Math.floor(Math.random()*(i+1));
-    [idxArr[i],idxArr[j]] = [idxArr[j],idxArr[i]];
+function shuffleQuestionOptions(qObj, targetPos){
+  const wrong = shuffled(qObj.opts.map((_,i)=>i).filter(i=>i!==qObj.correctIdx));
+  const opts = [];
+  let w = 0;
+  for(let p=0;p<qObj.opts.length;p++){
+    if(p === targetPos) opts.push(qObj.opts[qObj.correctIdx]);
+    else opts.push(qObj.opts[wrong[w++]]);
   }
-  return {
-    text: qObj.text,
-    opts: idxArr.map(i=>qObj.opts[i]),
-    correctIdx: idxArr.indexOf(qObj.correctIdx),
-    explain: qObj.explain
-  };
+  return { text:qObj.text, opts, correctIdx:targetPos, explain:qObj.explain };
+}
+
+// Spreads the correct answer evenly over A-D, so no letter dominates and
+// neither of a student's two questions has its answer in the same slot.
+function balancedPositions(count){
+  for(let attempt=0; attempt<200; attempt++){
+    const pool = [];
+    while(pool.length < count + 4) pool.push(0,1,2,3);
+    const pos = shuffled(pool).slice(0,count);
+    let ok = true;
+    for(let i=1;i<count;i++) if(pos[i]===pos[i-1]) ok = false;
+    const counts = [0,0,0,0];
+    pos.forEach(p=>counts[p]++);
+    if(Math.max(...counts) - Math.min(...counts) > 1) ok = false;
+    if(ok) return pos;
+  }
+  return Array.from({length:count}, (_,i)=> i%4);
 }
 
 function pickQuestionSets(lecture){
-  const all = shuffled(lecture.questions).map(shuffleQuestionOptions);
+  const need = PICKS_PER_SESSION * 2;
+  const base = shuffled(lecture.questions);
+  const pos = balancedPositions(need);
+  const all = [];
+  for(let i=0;i<need;i++) all.push(shuffleQuestionOptions(base[i % base.length], pos[i]));
   const sets = [];
-  for(let i=0;i<PICKS_PER_SESSION;i++){
-    const set = [];
-    for(let k=0;k<2;k++) set.push(all[(i*2+k) % all.length]);
-    sets.push(set);
-  }
+  for(let i=0;i<PICKS_PER_SESSION;i++) sets.push([all[i*2], all[i*2+1]]);
   return sets;
 }
 
@@ -1743,8 +1771,8 @@ function showPinGate(){
   form.addEventListener('submit', async (ev)=>{
     ev.preventDefault();
     btn.disabled = true;
-    let ok = false;
-    try{ ok = await signIn(email.value.trim(), pass.value); }catch(e){ console.error(e); }
+    let ok = false, msg = '';
+    try{ ok = await signIn(email.value.trim(), pass.value); }catch(e){ console.error(e); msg = /API key not set/.test(e.message) ? 'The Firebase Web API Key is not set in this page.' : describeAuthError(e.message); }
     btn.disabled = false;
     if(ok){
       pass.value = '';
@@ -1752,6 +1780,7 @@ function showPinGate(){
       document.getElementById('mainApp').style.display = 'block';
       initDashboard();
     } else {
+      err.textContent = msg || 'Incorrect email or password.';
       err.style.display = 'block';
       pass.value = '';
       pass.focus();
