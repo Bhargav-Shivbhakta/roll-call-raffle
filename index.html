@@ -1245,23 +1245,26 @@ function balancedPositions(count){
   return shuffled(Array.from({length:count}, (_,i)=> i%4));
 }
 
-function pickQuestionSets(lecture){
-  const need = PICKS_PER_SESSION * QUESTIONS_PER_STUDENT;
+function pickQuestionSets(lecture, studentCount){
+  const n = studentCount || PICKS_PER_SESSION;
+  const need = n * QUESTIONS_PER_STUDENT;
   const base = shuffled(lecture.questions);
   const pos = balancedPositions(need);
   const all = [];
   for(let i=0;i<need;i++) all.push(shuffleQuestionOptions(base[i % base.length], pos[i]));
   const sets = [];
-  for(let i=0;i<PICKS_PER_SESSION;i++) sets.push(all.slice(i*QUESTIONS_PER_STUDENT, (i+1)*QUESTIONS_PER_STUDENT));
+  for(let i=0;i<n;i++) sets.push(all.slice(i*QUESTIONS_PER_STUDENT, (i+1)*QUESTIONS_PER_STUDENT));
   return sets;
 }
 
 function showResult(picks, animated){
   if(!animated){
     document.getElementById('reels').style.visibility='visible';
+    const h = STATE.history[SCHEDULE[currentIdx].id] || {};
+    const shown = picks.filter(n=> !(h.absent && h.absent[n]));
     REEL_IDS.forEach((id,i)=>{
       const r = document.getElementById(id);
-      r.querySelector('.name').textContent = picks[i] || '—';
+      r.querySelector('.name').textContent = shown[i] || '—';
       r.classList.add('landed');
     });
   }
@@ -1278,21 +1281,58 @@ function removeStudentAnswers(sessionId, name){
   h.answers[name] = [];
 }
 
-// An absent student is recorded as having answered both questions incorrectly,
-// so the sheet shows a clear zero instead of "no data".
-async function setAbsent(sessionId, name, absent){
+// Chooses someone who has not been called yet to take an absent student's place,
+// keeping every remaining uncalled student placeable in a later session.
+function drawReplacement(lecture, alreadyPicked){
+  const taken = new Set(alreadyPicked);
+  const options = shuffled(computeCandidates(lecture).filter(n=>!taken.has(n)));
+  const uncalled = uncalledStudents();
+  for(const cand of options){
+    const rest = uncalled.filter(n=>n!==cand && !taken.has(n));
+    if(canCover(rest, lecture, 0)) return cand;
+  }
+  if(options.length) return options[0];
+  const excluded = new Set(lecture.presenters);
+  const others = shuffled(ROSTER.filter(n=>!excluded.has(n) && !taken.has(n)))
+    .sort((x,y)=>(STATE.counts[x]||0)-(STATE.counts[y]||0));
+  return others[0] || null;
+}
+
+// An absent student is recorded as having answered every question incorrectly,
+// so the sheet shows a clear zero instead of "no data". From the draw page
+// (replace = true) someone not yet called steps in for them.
+async function setAbsent(sessionId, name, absent, replace){
   const h = STATE.history[sessionId];
   if(!h) return;
   if(!h.answers) h.answers = {};
   if(!h.absent) h.absent = {};
+  if(!h.replacements) h.replacements = {};
   removeStudentAnswers(sessionId, name);
   if(absent){
     h.absent[name] = true;
     h.answers[name] = [];
     for(let k=0;k<QUESTIONS_PER_STUDENT;k++) h.answers[name].push({q:'Absent', correct:false, absent:true});
     STATE.scores[name].total += QUESTIONS_PER_STUDENT;
+    if(replace && !h.replacements[name]){
+      const rep = drawReplacement(SCHEDULE[Number(sessionId)], h.picked);
+      if(rep){
+        h.picked.push(rep);
+        h.answers[rep] = [];
+        h.replacements[name] = rep;
+        STATE.counts[rep] = (STATE.counts[rep]||0) + 1;
+      }
+    }
   } else {
     delete h.absent[name];
+    const rep = h.replacements[name];
+    if(rep){
+      if(!(h.answers[rep] && h.answers[rep].length)){
+        h.picked = h.picked.filter(n=>n!==rep);
+        delete h.answers[rep];
+        STATE.counts[rep] = Math.max(0, (STATE.counts[rep]||0) - 1);
+      }
+      delete h.replacements[name];
+    }
   }
   await saveState();
 }
@@ -1302,7 +1342,7 @@ function renderQuiz(picks){
   const wrap = document.getElementById('quizWrap');
   wrap.innerHTML = '';
   wrap.classList.add('visible');
-  const sets = pickQuestionSets(l);
+  const sets = pickQuestionSets(l, picks.length);
 
   if(!STATE.history[l.id]) STATE.history[l.id] = { picked:picks, topic:l.topic, file:l.file, answers:{} };
   if(!STATE.history[l.id].answers) STATE.history[l.id].answers = {};
@@ -1335,12 +1375,28 @@ function renderQuiz(picks){
     };
     absentBtn.addEventListener('click', async ()=>{
       const isAbsent = !!(STATE.history[l.id].absent && STATE.history[l.id].absent[name]);
-      await setAbsent(l.id, name, !isAbsent);
-      if(isAbsent){ renderLecture(); } else { refreshAbsentUI(); }
+      await setAbsent(l.id, name, !isAbsent, true);
+      renderLecture();
     });
     refreshAbsentUI();
     const qset = sets[i] || sets[0];
-    qset.forEach((qObj, qi)=>{
+    const priorAnswers = STATE.history[l.id].answers[name] || [];
+    const alreadyAnswered = priorAnswers.length >= QUESTIONS_PER_STUDENT && !priorAnswers.some(a=>a.absent);
+    if(alreadyAnswered){
+      const done = document.createElement('div');
+      done.className = 'q-text';
+      done.textContent = `Answered · ${priorAnswers.filter(a=>a.correct).length}/${priorAnswers.length} correct`;
+      panel.appendChild(done);
+    }
+    const replacedFor = Object.keys(STATE.history[l.id].replacements || {}).find(k=>STATE.history[l.id].replacements[k]===name);
+    if(replacedFor){
+      const tag = document.createElement('div');
+      tag.className = 'absent-tag';
+      tag.style.marginBottom = '8px';
+      tag.textContent = `Replacing ${replacedFor}`;
+      panel.insertBefore(tag, panel.children[1] || null);
+    }
+    (alreadyAnswered ? [] : qset).forEach((qObj, qi)=>{
       const qBlock = document.createElement('div');
       qBlock.className='q-block';
       const qText = document.createElement('div');
