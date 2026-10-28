@@ -217,6 +217,11 @@
   .bar-fill.mint{background:var(--mint);}
   .pct-tag{font-family:'IBM Plex Mono', monospace; font-size:12px; color:var(--amber);}
   .tick{font-size:13px; margin-right:2px;}
+  .absent-btn{margin-left:auto; border:1px solid var(--coral); background:transparent; color:var(--coral); border-radius:8px; padding:6px 12px; font-family:inherit; font-size:12.5px; cursor:pointer;}
+  .absent-btn:hover{background:var(--coral); color:#fff;}
+  .absent-tag{font-family:'IBM Plex Mono', monospace; font-size:12px; color:var(--coral);}
+  .student-panel.is-absent .q-block{display:none;}
+  .student-panel.is-absent .student-name{opacity:0.6;}
   .tick.ok{color:var(--mint);}
   .tick.no{color:var(--coral);}
   .empty-note{font-size:13.5px; color:var(--text-dim); padding:10px 0;}
@@ -381,6 +386,9 @@
           <div class="reel" id="reel0"><span class="num">1</span><span class="name">—</span></div>
           <div class="reel" id="reel1"><span class="num">2</span><span class="name">—</span></div>
           <div class="reel" id="reel2"><span class="num">3</span><span class="name">—</span></div>
+          <div class="reel" id="reel3"><span class="num">4</span><span class="name">—</span></div>
+          <div class="reel" id="reel4"><span class="num">5</span><span class="name">—</span></div>
+          <div class="reel" id="reel5"><span class="num">6</span><span class="name">—</span></div>
         </div>
 
         <div class="already-note" id="alreadyNote" style="display:none;">
@@ -397,7 +405,7 @@
     <div class="panel-body">
       <h3 class="section-title">Student scores</h3>
       <table class="data-table" id="scoreTable">
-        <thead><tr><th>Student</th><th>Times called</th><th>Correct</th><th>Answered</th><th style="width:26%;">Score</th></tr></thead>
+        <thead><tr><th>Student</th><th>Times called</th><th>Correct</th><th>Answered</th><th>Absent</th><th style="width:26%;">Score</th></tr></thead>
         <tbody id="scoreBody"></tbody>
       </table>
 
@@ -622,52 +630,62 @@ const SCHEDULE = [
 {date:"2026-10-27", topic:"Sorting Algorithms — Part 2", file:"Class20-Chapter16-3-1.pptx", slides:19,
  presenters:["Brendon Le","Julian Ngai"],
  questions:[
-  q("Quick Sort works by:", ["Picks a pivot and splits the list around it", "Merges two sorted halves into one list", "Checks every neighboring pair of items", "Uses a hash table to place each item"],0,"Everything smaller than the pivot goes one side, everything bigger goes the other."),
-  q("Merge Sort works by:", ["Splits the list in half, sorts each half, then joins", "Picks a pivot value and splits the list around it", "Compares only neighboring items again and again", "Avoids recursion by using one single long loop"],0,"It keeps dividing the list until pieces are tiny, then merges the sorted pieces back together."),
-  q("Compared to Bubble, Selection, and Insertion sort, Merge and Heap sort are generally:", ["Much faster on large lists", "Much slower on large lists", "Exactly the same speed on any list", "Not considered real sorting algorithms"],0,"Merge and Heap sort scale much better as the list gets bigger."),
-  q("An 'in-place' sort means:", ["It needs very little extra memory to work", "It needs a full second copy of the list", "It cannot be used to sort numbers", "It only works on lists that are already sorted"],0,"An in-place sort rearranges items within the original list instead of copying to new storage."),
-  q("Merge sort combines two halves that are already:", ["Sorted", "Empty", "Random", "Duplicated"],0,"Merging two sorted halves is easy because you only compare the front items."),
-  q("In Quick Sort, what is a pivot?", ["The value the list is split around", "The last item in the list, always", "The smallest item in the list only", "A brand new list of the results"],0,"Smaller values go on one side of the pivot and larger values on the other.")
+  q("Which pair of sorting algorithms from this lecture runs in O(N log N) time?", ["Merge sort and heap sort", "Selection sort and insertion sort", "Bubble sort and selection sort", "Insertion sort and bubble sort"],0,"Merge sort and heap sort are the O(N log N) ones; selection, insertion and bubble sort are O(N²)."),
+  q("In Merge Sort, the recursive splitting of the list stops when:", ["A sublist holds only a single element", "A sublist has been cut into three parts", "The pivot lands in the middle position", "Every element is equal to its neighbor"],0,"A list of one element is already sorted, so no more splitting is needed."),
+  q("Sorting an array containing only 0s, 1s and 2s in O(N) with one traversal uses:", ["A three-way partition", "Repeated passes of bubble sort", "A heap built from all elements", "A merge of two sorted halves"],0,"The Dutch National Flag solution partitions into low, middle and high regions in a single pass."),
+  q("Selection Sort keeps the array divided into which two parts?", ["A sorted part and an unsorted part", "A low half and a high half by pivot", "Two lists interleaved by a gap value", "A heap part and a leftover part"],0,"Each pass moves the minimum of the unsorted part to the end of the sorted part."),
+  q("In Shell Sort, what do the gap values decide?", ["How many interleaved lists get sorted", "Which element is picked as the pivot", "How deep the recursion may go", "Where the array is split into halves"],0,"A gap is the distance between elements in each interleaved list."),
+  q("When does the recursion in Quicksort stop?", ["When a partition has one or zero elements", "When a partition has exactly two elements", "When the pivot is the first element", "When all values equal the pivot"],0,"A partition of size 0 or 1 is already sorted, so it is the base case."),
+  q("In the Quicksort partition step, the low index keeps moving right while the value at low is:", ["Less than the pivot value", "Greater than the pivot value", "Equal to the value at high", "Larger than the last element"],0,"Elements smaller than the pivot already belong in the low partition."),
+  q("Heap sort relies on which data structure to repeatedly get the next smallest or largest item?", ["A heap built from the array", "A hash table of the values", "A queue of sorted halves", "A linked list of the pivots"],0,"A heap gives fast access to the minimum or maximum on every removal.")
  ]},
 {date:"2026-10-29", topic:"Introduction to Trees", file:"Class22-Chapter18-1-1.pptx", slides:19,
  presenters:["Eesha Devulkar","Amrutha Siri Kommidi"],
  questions:[
-  q("What is the 'root' of a tree?", ["The very top node, which has no parent", "The bottom node, which has no children", "Any node picked from the tree", "A node that has exactly two children"],0,"Every tree has one root at the very top that everything branches down from."),
-  q("What is a 'leaf' node?", ["A node with no children", "The very top node of the tree", "Any node that has children", "A node found in the middle"],0,"Leaves are the end points at the bottom of the tree."),
-  q("In-order traversal visits nodes in what order?", ["Left side, then the node, then the right side", "The node, then the left side, then the right side", "The right side, then the left side, then the node", "Whatever order the nodes were added in"],0,"That left-node-right pattern is what 'in-order' means."),
-  q("What does the 'height' of a tree tell you?", ["How many levels deep the tree goes", "How many leaves the tree has", "How wide the tree is at its base", "How many nodes the tree holds in total"],0,"A taller tree has more levels between the root and its deepest leaf."),
-  q("What is a 'child' node?", ["A node directly below another node", "The very top node of the tree", "A node that has no parent at all", "A node that has been deleted"],0,"Each node can have children that hang beneath it."),
-  q("In a binary tree, each node has at most how many children?", ["Two", "One", "Three", "Ten"],0,"That is what 'binary' means: a left child and a right child.")
+  q("Preorder traversal of a binary tree visits nodes in which order?", ["The node, then its left, then its right", "Its left, then the node, then its right", "Its left, then its right, then the node", "Each level from top down, left to right"],0,"Preorder handles the node first, then the left subtree, then the right subtree."),
+  q("Which traversal visits a node only after both of its subtrees are finished?", ["Postorder", "Preorder", "Inorder", "Level order"],0,"Postorder goes left, right, then the node itself."),
+  q("Level order traversal of a tree is typically implemented using:", ["A queue", "A stack", "A heap", "A hash table"],0,"A queue makes nodes come out level by level, in the order they were added."),
+  q("In a full binary tree, every node has:", ["Either zero or two children", "Exactly two children, leaves included", "At most one child", "Only a left child"],0,"Full means no node has exactly one child."),
+  q("A tree with N nodes always has how many edges?", ["N − 1", "N, since each node has one edge", "N + 1, counting a root edge", "2N, counting both directions"],0,"Every node except the root connects upward by exactly one edge."),
+  q("The depth of a node is:", ["The number of edges from the root to it", "The number of edges down to its deepest leaf", "The number of nodes in its subtree", "The number of children it has"],0,"Depth counts down from the root; height counts down to the leaves."),
+  q("A binary tree where every node has just one child is called:", ["A degenerate (skewed) tree", "A perfect tree, filled on every level", "A complete tree, filled left to right", "A full tree, with two children each"],0,"Such a tree is effectively a linked list."),
+  q("Two nodes that share the same parent are called:", ["Siblings", "Ancestors", "Descendants", "Leaves"],0,"Siblings are children of the same parent node.")
  ]},
 {date:"2026-11-03", topic:"Binary Search Trees", file:"Class22-Chapter18-2-1.pptx", slides:12,
  presenters:["Eugene Cho","Everett Fox"],
  questions:[
-  q("In a Binary Search Tree, where do smaller values go?", ["To the left of a node", "To the right of a node", "Always at the root", "Anywhere in the tree"],0,"Smaller values always sit to the left in a BST."),
-  q("In a Binary Search Tree, where do larger values go?", ["To the right of a node", "To the left of a node", "Only at the leaves", "Nowhere, since they are not allowed"],0,"Larger (or equal) values always sit to the right in a BST."),
-  q("Which traversal gives you the values in sorted order?", ["In-order traversal", "Pre-order traversal", "Post-order traversal", "Level-order traversal"],0,"Because of the left-node-right pattern, in-order traversal naturally comes out sorted."),
-  q("What are the three main things you do with a BST?", ["Search, insert, and remove items", "Push, pop, and peek at items", "Read, write, and delete files", "Enqueue and dequeue items only"],0,"Those three operations cover almost everything you do with a BST."),
-  q("Where is the smallest value in a Binary Search Tree?", ["Far down the left side", "At the root, always", "Far down the right side", "Right in the middle"],0,"Keep going left until there is nothing more on the left."),
-  q("Why is a BST good for searching?", ["Each step lets you skip about half the nodes", "Each step has to check every single node there", "The items are kept in one long straight line", "The tree can never change after it is built"],0,"Comparing with a node tells you whether to go left or right.")
+  q("Values 8, 3, 10, 1, 6 are inserted in that order into an empty BST. Where does 6 end up?", ["As the right child of 3", "As the left child of 3", "As the left child of 10", "As the right child of 1"],0,"6 is less than 8, so it goes left; it is at least 3, so it goes to the right of 3."),
+  q("For that same BST (8, 3, 10, 1, 6), what does an in-order traversal print?", ["1, 3, 6, 8, 10", "8, 3, 1, 6, 10", "1, 6, 3, 10, 8", "8, 3, 10, 1, 6"],0,"In-order on a BST always gives sorted order."),
+  q("Removing a BST node that has two children is usually done by:", ["Copying the smallest value of its right subtree into it, then removing that node", "Copying the largest value of its right subtree into it, then removing that node", "Deleting it and attaching both of its children to its own parent", "Replacing it with its parent and then deleting that parent node"],0,"The successor is the smallest value in the right subtree, and it has at most one child."),
+  q("In the BST written (20 (12 (11, -), 23 (21, 30))), what is the right child of 20?", ["23", "12", "21", "30"],0,"The text notation lists the left child first, then the right child, for each node."),
+  q("In the BST (20 (12 (11, -), 23 (21, 30))), which node is the largest value?", ["30", "23", "21", "20"],0,"The largest value is found by following right children as far as possible."),
+  q("According to the BST rule given in class, where does a value equal to its parent go?", ["In the right subtree", "In the left subtree", "It is rejected as a duplicate", "It replaces the parent"],0,"The rule is left child < parent and right child ≥ parent."),
+  q("What happens to search time if you insert 1, 2, 3, 4, 5 in order into a BST?", ["It becomes O(N), since the tree turns into a chain", "It stays O(log N), since a BST is always balanced", "It becomes O(1), since the values are sorted", "It becomes O(N log N), since it must be re-sorted"],0,"Every new value goes to the right, so the tree is as tall as it is long."),
+  q("Searching the BST built from 8, 3, 10, 1, 6 for the value 6 visits which nodes?", ["8, then 3, then 6", "8, then 10, then 6", "3, then 1, then 6", "8, then 3, then 1, then 6"],0,"6 is less than 8, so go left; at least 3, so go right, and it is found.")
  ]},
 {date:"2026-11-12", topic:"Heaps and Priority Queues", file:"Class23-Chapter18-3-1.pptx", slides:20,
  presenters:["Louis Romero Caballero","Kai Mckinney"],
  questions:[
-  q("What's special about a Priority Queue?", ["It gives fast access to the smallest or largest item", "It keeps every item sorted in alphabetical order", "It can only ever store one single item at a time", "It is simply another name for an ordinary stack"],0,"Items come out based on priority, not just the order they were added."),
-  q("A heap is usually built using what shape?", ["A complete binary tree", "A straight line of nodes", "A table of hashed keys", "A stack of items"],0,"That tree shape is what makes heaps efficient to store and update."),
-  q("When you add a new item to a heap, what has to happen?", ["It may need to reorganize itself to stay valid", "Nothing needs to happen to the heap at all", "The whole heap is deleted and then rebuilt", "The heap turns into an ordinary queue instead"],0,"The new item may need to move up until the heap's ordering rule is satisfied again."),
-  q("Heaps are commonly used to build which sorting algorithm?", ["Heap sort", "Bubble sort", "Insertion sort", "Counting sort"],0,"Heap sort repeatedly removes the top item from a heap to build a sorted list."),
-  q("In a min-heap, the item at the top is:", ["The smallest item", "The largest item", "Always the number zero", "A randomly chosen item"],0,"A min-heap keeps its smallest value at the root."),
-  q("A heap is usually stored in:", ["An array", "A text file", "A hash table", "A stack of plates"],0,"A complete tree fits neatly into an array, so no links are needed.")
+  q("In a min-heap, the heap-order property says:", ["Each key is greater than or equal to its parent's key", "Each key is less than or equal to its parent's key", "Each left child holds a smaller key than its sibling", "All of the leaves hold exactly the same key"],0,"The smallest key therefore always sits at the root."),
+  q("The array [2, 6, 5, 9, 7] is a min-heap (positions 1 to 5). After inserting 3, the array is:", ["[2, 6, 3, 9, 7, 5]", "[3, 2, 6, 5, 9, 7]", "[2, 3, 5, 9, 7, 6]", "[2, 6, 5, 9, 7, 3]"],0,"3 goes in position 6, swaps with its parent 5, and then stops because 2 is smaller."),
+  q("Upheap stops when the new key:", ["Reaches the root or a parent that is not larger", "Reaches a leaf of the heap after many swaps", "Has been swapped exactly log n times in total", "Becomes the new last node of the heap"],0,"Upheap swaps upward until the heap-order property is restored."),
+  q("The first step of removeMin in a heap is to:", ["Replace the root key with the key of the last node", "Delete the last node and leave the root as it is", "Swap the root with its larger child right away", "Rebuild the whole heap from scratch each time"],0,"Downheap then restores the heap order from the root."),
+  q("Insert and removeMin in a heap with n items each take:", ["O(log n) time", "O(1) time", "O(n) time", "O(n log n) time"],0,"Both walk a single path between the root and a leaf."),
+  q("In the array form of a heap (ranks starting at 1), the left child of the node at rank i is at:", ["2i", "i + 2", "2i + 2", "i / 2"],0,"The right child is at 2i + 1 and the parent is at i / 2 (rounded down)."),
+  q("In an unsorted-list priority queue, removeMin takes:", ["O(n), since every item must be checked", "O(1), since the minimum is stored first", "O(log n), since the list is halved each time", "O(n log n), since the list must be sorted"],0,"Insert is O(1) but finding the minimum means scanning the whole list."),
+  q("Why is a heap a better priority queue than a sorted list?", ["Both insertion and removeMin stay O(log n)", "Both insertion and removeMin become O(1)", "Any key can be found in O(1) time", "All of the items are kept fully sorted"],0,"A sorted list needs O(n) to insert or remove, while a heap needs only O(log n).")
  ]},
 {date:"2026-11-17", topic:"Hashing and HashMap", file:"Class24-Chapter17-1-1.pptx", slides:26,
  presenters:["Hunter Miller","Younis Bashir"],
  questions:[
-  q("What does a hash function do?", ["Turns a key into an index to store or find data", "Sorts a list of keys from smallest to largest", "Deletes data that is no longer needed at all", "Compares two files to see if they are the same"],0,"It's like a quick formula that tells you exactly where to look."),
-  q("What is a 'collision' in hashing?", ["Two different keys land in the same spot", "The program crashes while storing data", "A key goes missing from the table", "The data in the table gets sorted"],0,"Two different keys can sometimes hash to the same location — that's a collision."),
-  q("What's one common way to handle a collision?", ["Store several items together in one spot (chaining)", "Ignore the problem and hope that it goes away", "Delete both of the items that ended up colliding", "Stop the program from running any further"],0,"Chaining keeps a small list at each spot so more than one item can live there."),
-  q("How fast is looking something up in a good hash map, on average?", ["Very fast, close to instant", "Very slow, one item at a time", "About as slow as scanning a list", "Fast only after the data is sorted"],0,"A well-built hash map gives roughly constant-time lookups."),
-  q("In a HashMap, items are stored as:", ["Key and value pairs", "Single numbers only", "Sorted words only", "Image files"],0,"You look up a value by giving its key."),
-  q("What is a 'bucket' in hashing?", ["A spot in the table where items are stored", "A kind of loop that keeps repeating a block", "An error message shown by the compiler", "A method used for sorting a list of items"],0,"The hash function sends each key to one bucket.")
+  q("With linear probing, a key hashes to a full bucket. What happens next?", ["The next buckets are checked one by one until an empty one is found", "Buckets are checked at squared distances from the original spot until one is empty", "The item is added to a list that is stored inside that same bucket", "The item already stored in that bucket is replaced by the new item"],0,"Linear probing steps forward one bucket at a time."),
+  q("Quadratic probing differs from linear probing because it:", ["Steps ahead by growing squares instead of one at a time", "Keeps a list of items inside of each bucket", "Resizes the whole table on every single insertion", "Hashes the key again with a second function"],0,"The step sizes 1, 4, 9, ... spread items out and reduce clustering."),
+  q("Chaining handles a collision by:", ["Keeping a list of items in the same bucket", "Moving the item to the next free bucket", "Overwriting the older item with the new one", "Rehashing the key until a free bucket appears"],0,"Each bucket holds a chain of all the keys that landed there."),
+  q("A hash function given the same key must return:", ["The same index every time", "A new random index each time", "An index that grows with every call", "An index based on how many items are stored"],0,"A lookup only works if a key always maps to the same bucket."),
+  q("A table of size 10 uses key mod 10 with linear probing. After inserting 15, 25, then 35 into an empty table, where is 35?", ["Bucket 7", "Bucket 5", "Bucket 6", "Bucket 8"],0,"15 takes bucket 5, 25 moves to 6, and 35 finds 5 and 6 taken so it lands in 7."),
+  q("Why is a removed item's bucket marked specially instead of simply emptied in a probing table?", ["Searches for later items could stop too early at the gap", "The table would shrink and lose its fixed size entirely", "Every other hash value would have to be changed too", "Other keys would no longer map to that same bucket"],0,"A bucket that was never used and one that was emptied after removal must be told apart."),
+  q("When a hash map becomes too full, it is typically:", ["Resized into a bigger table and its items rehashed", "Sorted so that lookups become faster than before", "Converted into a binary search tree structure", "Cleared completely so that new items can fit"],0,"More buckets keep collisions rare and lookups close to O(1)."),
+  q("What is the average cost of get(key) in a well-built hash map?", ["About constant time, O(1)", "About linear time, O(N)", "About logarithmic time, O(log N)", "About O(N log N) time"],0,"The hash function jumps straight to the right bucket instead of searching.")
  ]}
 ];
 
@@ -681,7 +699,7 @@ SCHEDULE.forEach((l,i)=>{ l.id = String(i); });
 
 const FIREBASE_URL = "https://rollcall--cs160-default-rtdb.firebaseio.com";
 const APP_URL = "https://bhargav-shivbhakta.github.io/roll-call-raffle/";
-const FIREBASE_API_KEY = "AIzaSyBwMSfxoDnNYPEm2bpf4guRfK6Upm3iFdY";
+const FIREBASE_API_KEY = "PASTE_WEB_API_KEY_HERE";
 
 /* ---------------- STATE / STORAGE ---------------- */
 
@@ -1000,10 +1018,11 @@ function renderLecture(){
   });
 
   document.getElementById('reels').style.visibility = 'hidden';
-  document.getElementById('reel0').classList.remove('landed','spinning');
-  document.getElementById('reel1').classList.remove('landed','spinning');
-  document.getElementById('reel2').classList.remove('landed','spinning');
-  ['reel0','reel1','reel2'].forEach(id=>{ document.getElementById(id).querySelector('.name').textContent='—'; });
+  REEL_IDS.forEach(id=>{
+    const r = document.getElementById(id);
+    r.classList.remove('landed','spinning');
+    r.querySelector('.name').textContent='—';
+  });
   renderRemaining();
   document.getElementById('quizWrap').classList.remove('visible');
   document.getElementById('quizWrap').innerHTML='';
@@ -1034,7 +1053,9 @@ function computeCandidates(lecture){
   return ROSTER.filter(n=>!excluded.has(n) && (STATE.counts[n]||0) === 0);
 }
 
-const PICKS_PER_SESSION = 3;
+const PICKS_PER_SESSION = 6;
+const QUESTIONS_PER_STUDENT = 1;
+const REEL_IDS = ['reel0','reel1','reel2','reel3','reel4','reel5'];
 
 function uncalledStudents(){
   return ROSTER.filter(n=>(STATE.counts[n]||0) === 0);
@@ -1175,17 +1196,15 @@ async function runDraw(){
 
   const pool = computeCandidates(l);
   document.getElementById('reels').style.visibility = 'visible';
-  const reel0 = document.getElementById('reel0');
-  const reel1 = document.getElementById('reel1');
-  const reel2 = document.getElementById('reel2');
-  [reel0,reel1,reel2].forEach(r=>{ r.classList.remove('landed'); r.querySelector('.name').textContent='?'; });
+  const reelEls = REEL_IDS.map(id=>document.getElementById(id));
+  reelEls.forEach(r=>{ r.classList.remove('landed'); r.querySelector('.name').textContent='?'; });
 
   setLid(true);
   await new Promise(r=>setTimeout(r,350));
 
-  await new Promise(resolve=>{ spinReel(reel0, pool, 1500, picks[0], resolve); });
-  await new Promise(resolve=>{ spinReel(reel1, pool, 1500, picks[1] || picks[0], resolve); });
-  await new Promise(resolve=>{ spinReel(reel2, pool, 1500, picks[2] || picks[0], resolve); });
+  for(let i=0;i<reelEls.length;i++){
+    await new Promise(resolve=>{ spinReel(reelEls[i], pool, 900, picks[i] || picks[0], resolve); });
+  }
 
   setLid(false);
   burstConfetti();
@@ -1216,41 +1235,66 @@ function shuffleQuestionOptions(qObj, targetPos){
 // Spreads the correct answer evenly over A-D, so no letter dominates and
 // neither of a student's two questions has its answer in the same slot.
 function balancedPositions(count){
+  const cap = Math.ceil(count / 4);
   for(let attempt=0; attempt<200; attempt++){
-    const pool = [];
-    while(pool.length < count + 4) pool.push(0,1,2,3);
-    const pos = shuffled(pool).slice(0,count);
-    let ok = true;
-    for(let i=1;i<count;i++) if(pos[i]===pos[i-1]) ok = false;
+    const pos = Array.from({length:count}, ()=> Math.floor(Math.random()*4));
     const counts = [0,0,0,0];
     pos.forEach(p=>counts[p]++);
-    if(Math.max(...counts) - Math.min(...counts) > 1) ok = false;
-    if(ok) return pos;
+    if(Math.max(...counts) <= cap) return pos;
   }
-  return Array.from({length:count}, (_,i)=> i%4);
+  return shuffled(Array.from({length:count}, (_,i)=> i%4));
 }
 
 function pickQuestionSets(lecture){
-  const need = PICKS_PER_SESSION * 2;
+  const need = PICKS_PER_SESSION * QUESTIONS_PER_STUDENT;
   const base = shuffled(lecture.questions);
   const pos = balancedPositions(need);
   const all = [];
   for(let i=0;i<need;i++) all.push(shuffleQuestionOptions(base[i % base.length], pos[i]));
   const sets = [];
-  for(let i=0;i<PICKS_PER_SESSION;i++) sets.push([all[i*2], all[i*2+1]]);
+  for(let i=0;i<PICKS_PER_SESSION;i++) sets.push(all.slice(i*QUESTIONS_PER_STUDENT, (i+1)*QUESTIONS_PER_STUDENT));
   return sets;
 }
 
 function showResult(picks, animated){
   if(!animated){
     document.getElementById('reels').style.visibility='visible';
-    ['reel0','reel1','reel2'].forEach((id,i)=>{
+    REEL_IDS.forEach((id,i)=>{
       const r = document.getElementById(id);
       r.querySelector('.name').textContent = picks[i] || '—';
       r.classList.add('landed');
     });
   }
   renderQuiz(picks);
+}
+
+function removeStudentAnswers(sessionId, name){
+  const h = STATE.history[sessionId];
+  if(!h || !h.answers || !h.answers[name]) return;
+  h.answers[name].forEach(a=>{
+    STATE.scores[name].total = Math.max(0, STATE.scores[name].total - 1);
+    if(a.correct) STATE.scores[name].correct = Math.max(0, STATE.scores[name].correct - 1);
+  });
+  h.answers[name] = [];
+}
+
+// An absent student is recorded as having answered both questions incorrectly,
+// so the sheet shows a clear zero instead of "no data".
+async function setAbsent(sessionId, name, absent){
+  const h = STATE.history[sessionId];
+  if(!h) return;
+  if(!h.answers) h.answers = {};
+  if(!h.absent) h.absent = {};
+  removeStudentAnswers(sessionId, name);
+  if(absent){
+    h.absent[name] = true;
+    h.answers[name] = [];
+    for(let k=0;k<QUESTIONS_PER_STUDENT;k++) h.answers[name].push({q:'Absent', correct:false, absent:true});
+    STATE.scores[name].total += QUESTIONS_PER_STUDENT;
+  } else {
+    delete h.absent[name];
+  }
+  await saveState();
 }
 
 function renderQuiz(picks){
@@ -1277,8 +1321,24 @@ function renderQuiz(picks){
           <div class="student-name">${name}</div>
           <div class="student-count">Called ${STATE.counts[name]||0} time${(STATE.counts[name]||0)===1?'':'s'} · scored ${STATE.scores[name].correct}/${STATE.scores[name].total} overall</div>
         </div>
+        <button class="absent-btn" type="button"></button>
       </div>
     `;
+    const absentBtn = panel.querySelector('.absent-btn');
+    const refreshAbsentUI = ()=>{
+      const isAbsent = !!(STATE.history[l.id].absent && STATE.history[l.id].absent[name]);
+      panel.classList.toggle('is-absent', isAbsent);
+      absentBtn.textContent = isAbsent ? 'Undo absent' : 'Mark absent';
+      panel.querySelector('.student-count').textContent = isAbsent
+        ? `Absent · recorded as 0/${QUESTIONS_PER_STUDENT}`
+        : `Called ${STATE.counts[name]||0} time${(STATE.counts[name]||0)===1?'':'s'} · scored ${STATE.scores[name].correct}/${STATE.scores[name].total} overall`;
+    };
+    absentBtn.addEventListener('click', async ()=>{
+      const isAbsent = !!(STATE.history[l.id].absent && STATE.history[l.id].absent[name]);
+      await setAbsent(l.id, name, !isAbsent);
+      if(isAbsent){ renderLecture(); } else { refreshAbsentUI(); }
+    });
+    refreshAbsentUI();
     const qset = sets[i] || sets[0];
     qset.forEach((qObj, qi)=>{
       const qBlock = document.createElement('div');
@@ -1332,6 +1392,10 @@ function renderAnalytics(){
   const body = document.getElementById('scoreBody');
   body.innerHTML='';
   const sorted = ROSTER.slice().sort((a,b)=> a.localeCompare(b));
+  const absentCount = {};
+  Object.values(STATE.history).forEach(h=>{
+    Object.keys(h.absent||{}).forEach(n=>{ absentCount[n] = (absentCount[n]||0) + 1; });
+  });
   sorted.forEach(name=>{
     const s = STATE.scores[name] || {correct:0,total:0};
     const pct = s.total>0 ? Math.round((s.correct/s.total)*100) : null;
@@ -1341,6 +1405,7 @@ function renderAnalytics(){
       <td class="num">${STATE.counts[name]||0}</td>
       <td class="num">${s.correct}</td>
       <td class="num">${s.total}</td>
+      <td class="num">${absentCount[name]||0}</td>
       <td>
         ${s.total>0
           ? `<div class="bar-bg"><div class="bar-fill mint" style="width:${pct}%"></div></div><span class="pct-tag">${pct}%</span>`
@@ -1356,25 +1421,38 @@ function renderAnalytics(){
     logEl.innerHTML = `<div class="empty-note">No sessions recorded yet.</div>`;
     return;
   }
-  let html = `<table class="data-table"><thead><tr><th>Date</th><th>Topic</th><th>Student</th><th>Answers</th><th>Score</th></tr></thead><tbody>`;
+  let html = `<table class="data-table"><thead><tr><th>Date</th><th>Topic</th><th>Student</th><th>Answers</th><th>Score</th><th></th></tr></thead><tbody>`;
   ids.forEach(id=>{
     const h = STATE.history[id];
     const l = SCHEDULE[Number(id)];
     (h.picked||[]).forEach((name, i)=>{
       if(!name) return;
       const answers = (h.answers && h.answers[name]) || [];
-      const ticks = answers.map(a=> `<span class="tick ${a.correct?'ok':'no'}">${a.correct?'✓':'✗'}</span>`).join(' ') || '<span class="pct-tag" style="color:var(--text-dim);">not answered</span>';
+      const isAbsent = !!(h.absent && h.absent[name]);
+      const ticks = isAbsent
+        ? '<span class="absent-tag">Absent</span>'
+        : (answers.map(a=> `<span class="tick ${a.correct?'ok':'no'}">${a.correct?'✓':'✗'}</span>`).join(' ') || '<span class="pct-tag" style="color:var(--text-dim);">not answered</span>');
       const correctCt = answers.filter(a=>a.correct).length;
+      const actionBtn = isAbsent
+        ? `<button class="absent-btn" style="margin:0;" data-absent-id="${id}" data-absent-name="${name.replace(/"/g,'&quot;')}" data-absent-set="0">Undo</button>`
+        : (answers.length===0 ? `<button class="absent-btn" style="margin:0;" data-absent-id="${id}" data-absent-name="${name.replace(/"/g,'&quot;')}" data-absent-set="1">Mark absent</button>` : '');
       html += `<tr>
         ${i===0 ? `<td rowspan="${h.picked.length}">${fmtDate(l.date)}</td><td rowspan="${h.picked.length}">${h.topic}</td>` : ''}
         <td>${name}</td>
         <td>${ticks}</td>
         <td class="num">${answers.length>0 ? correctCt+'/'+answers.length : '—'}</td>
+        <td>${actionBtn}</td>
       </tr>`;
     });
   });
   html += `</tbody></table>`;
   logEl.innerHTML = html;
+  logEl.querySelectorAll('[data-absent-id]').forEach(btn=>{
+    btn.addEventListener('click', async ()=>{
+      await setAbsent(btn.dataset.absentId, btn.dataset.absentName, btn.dataset.absentSet === '1');
+      renderAnalytics();
+    });
+  });
 }
 
 /* ---------------- PROBABILITY TAB ---------------- */
